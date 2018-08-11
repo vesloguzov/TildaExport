@@ -29,7 +29,7 @@ class StaticFile(models.Model):
     path_tilda = models.CharField("Путь у них", max_length=255, null=False, blank=False)
 
 
-class Project(models.model):
+class Project(models.Model):
     id = models.CharField("Идентификатор", max_length=255, null=False, blank=False)
     title = models.CharField("Название", max_length=255, null=False, blank=False)
     descr = models.CharField("Описание", max_length=255, null=True, blank=True)
