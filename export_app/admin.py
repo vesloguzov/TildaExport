@@ -12,4 +12,4 @@ class PageAdmin(admin.ModelAdmin):
 
 @admin.register(TildaRequest)
 class TildaRequestAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title', 'descr')
+    list_display = ('name', 'request_count', 'base_url')
