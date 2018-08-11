@@ -1,1 +1,1 @@
-default_app_config = 'apps.tildaexportConfig'
+default_app_config = 'tildaexport.apps.tildaexportConfig'
