@@ -12,6 +12,7 @@ class StaticFile(models.Model):
 
 
 class TildaRequest(models.Model):
+    name = models.CharField("Имя", max_length=255, null=False, blank=False)
     request_count = models.IntegerField("Количество запросов за час", default=0)
     publickey = "ptjpckc4gc0feyrbgj0w"
     secretkey = "nil2glnhbg00skcx1"

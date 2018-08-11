@@ -9,3 +9,7 @@ class ProjectAdmin(admin.ModelAdmin):
 @admin.register(Page)
 class PageAdmin(admin.ModelAdmin):
     list_display = ('id', 'title', 'descr')
+
+@admin.register(TildaRequest)
+class TildaRequestAdmin(admin.ModelAdmin):
+    list_display = ('id', 'title', 'descr')
