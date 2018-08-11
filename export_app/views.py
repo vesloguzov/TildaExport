@@ -13,4 +13,4 @@ def projects_list(request):
             "descr": project.descr
         }
         )
-    return render(request, "base.html", context)
+    return render(request, "projects.html", context)
