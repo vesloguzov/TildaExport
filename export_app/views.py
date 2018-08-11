@@ -1,5 +1,5 @@
 # from django.http import Http404, JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from export_app.models import Project, TildaRequest
 
 
@@ -18,4 +18,4 @@ def projects_list(request):
 
 def update_projects(request):
     TildaRequest.objects.latest("id").getprojectslist()
-    projects_list(request)
+    return redirect(projects_list, request=request)
