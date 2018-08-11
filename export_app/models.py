@@ -34,7 +34,7 @@ class TildaRequest(models.Model):
             if response["status"] == "FOUND":
                 for project in response["result"]:
                     print("ADDD PROJJJECT")
-                    project_object = Project.objects.get_or_create(id=project["id"])
+                    project_object = Project.objects.get_or_create(id=project["id"])[0]
                     project_object.update(title=project["title"], descr=project["descr"])
 
 
