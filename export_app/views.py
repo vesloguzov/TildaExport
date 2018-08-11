@@ -1,3 +1,16 @@
+# from django.http import Http404, JsonResponse
 from django.shortcuts import render
+from export_app.models import Project
 
-# Create your views here.
+
+def projects_list(request):
+    context = dict()
+    context["projects"] = []
+    for project in Project.objects.all():
+        context["projects"].append({
+            "id": project.id,
+            "title": project.title,
+            "descr": project.descr
+        }
+        )
+    return render(request, "base.html", context)
