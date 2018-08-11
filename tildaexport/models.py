@@ -12,8 +12,8 @@ class Request(models.Model):
 
     def getprojectslist(self):
         if self.request_count < 120:
-            request = requests.get(
-                f'{self.base_url}getprojectslist/?publickey={self.publickey}&secretkey={self.secretkey}')
+            # request = requests.get(f'{self.base_url}getprojectslist/?publickey={self.publickey}&secretkey={self.secretkey}')
+            request = requests.get("{}getprojectslist/?publickey={}&secretkey={}".format(self.base_url, self.publickey, self.secretkey))
             response = json.loads(request.json())
             if response["status"] == "FOUND":
                 for project in response["result"]:
