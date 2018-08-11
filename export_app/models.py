@@ -4,6 +4,13 @@ import requests
 import json
 
 
+class StaticFile(models.Model):
+    filename = models.CharField("Имя файла", max_length=255, null=False, blank=False)
+    type = (('image', 'Картинка'), ('js', 'JavaScript-файл'), ('css', 'CSS-файл'))
+    path = models.CharField("Путь у нас", max_length=255, null=False, blank=False)
+    path_tilda = models.CharField("Путь у них", max_length=255, null=False, blank=False)
+
+
 class TildaRequest(models.Model):
     request_count = models.IntegerField("Количество запросов за час", default=0)
     publickey = "ptjpckc4gc0feyrbgj0w"
@@ -13,20 +20,14 @@ class TildaRequest(models.Model):
     def getprojectslist(self):
         if self.request_count < 120:
             # request = requests.get(f'{self.base_url}getprojectslist/?publickey={self.publickey}&secretkey={self.secretkey}')
-            request = requests.get("{}getprojectslist/?publickey={}&secretkey={}".format(self.base_url, self.publickey, self.secretkey))
+            request = requests.get(
+                "{}getprojectslist/?publickey={}&secretkey={}".format(self.base_url, self.publickey, self.secretkey))
             response = json.loads(request.json())
             if response["status"] == "FOUND":
                 for project in response["result"]:
                     project_object = Project.objects.get_or_create(id=project["id"])
                     project_object.update(title=project["title"], descr=project["descr"])
             self.request_count += 1
-
-
-class StaticFile(models.Model):
-    filename = models.CharField("Имя файла", max_length=255, null=False, blank=False)
-    type = (('image', 'Картинка'), ('js', 'JavaScript-файл'), ('css', 'CSS-файл'))
-    path = models.CharField("Путь у нас", max_length=255, null=False, blank=False)
-    path_tilda = models.CharField("Путь у них", max_length=255, null=False, blank=False)
 
 
 class Project(models.Model):
