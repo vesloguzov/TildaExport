@@ -18,7 +18,7 @@ def projects_list(request):
 
 def update_projects(request):
     TildaRequest.objects.latest("id").getprojectslist()
-    redirect(projects_list)
+    redirect("/projects/")
     # context = dict()
     # context["projects"] = []
     # for project in Project.objects.all():
