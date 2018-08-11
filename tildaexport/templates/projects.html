@@ -1,0 +1,9 @@
+{% extends "../base.html" %}
+{% load static %}
+{% block content %}
+
+    {% for project in context.projects %}
+        <li><a href="/projects/{{ project.id }}/">{{ project.title }}</a></li>
+    {% endfor %}
+
+{% endblock %}
