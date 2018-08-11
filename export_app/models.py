@@ -41,10 +41,10 @@ class Project(models.Model):
     indexpageid = models.CharField("indexpageid", max_length=255, null=True, blank=True)
     favicon = models.CharField("Картинка", max_length=255, null=True, blank=True)
     page404id = models.CharField("page404id", max_length=255, null=True, blank=True)
-    static_files = models.ManyToManyField('StaticFile')
+    static_files = models.ManyToManyField('StaticFile', blank=True)
     # js = models.ManyToManyField('StaticFile')
     # css = models.ManyToManyField('StaticFile')
-    ProjectPages = models.ManyToManyField('Page')
+    ProjectPages = models.ManyToManyField('Page', blank=True)
 
 
 class Page(models.Model):
@@ -59,7 +59,7 @@ class Page(models.Model):
     sort = models.CharField("Номер очередности в списке страниц", max_length=255, null=True, blank=True)
     published = models.CharField("Адрес страницы", max_length=255, null=True, blank=True)
     filename = models.CharField("Имя файла", max_length=255, null=True, blank=True)
-    static_files = models.ManyToManyField('StaticFile')
+    static_files = models.ManyToManyField('StaticFile', blank=True)
     # images = models.ManyToManyField('StaticFile')
     # css = models.ManyToManyField('StaticFile')
     # js = models.ManyToManyField('StaticFile')
