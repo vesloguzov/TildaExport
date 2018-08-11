@@ -18,13 +18,14 @@ def projects_list(request):
 
 def update_projects(request):
     TildaRequest.objects.latest("id").getprojectslist()
-    context = dict()
-    context["projects"] = []
-    for project in Project.objects.all():
-        context["projects"].append({
-            "id": project.id,
-            "title": project.title,
-            "descr": project.descr
-        }
-        )
-    return render(request, "projects.html", context)
+    redirect(projects_list)
+    # context = dict()
+    # context["projects"] = []
+    # for project in Project.objects.all():
+    #     context["projects"].append({
+    #         "id": project.id,
+    #         "title": project.title,
+    #         "descr": project.descr
+    #     }
+    #     )
+    # return render(request, "projects.html", context)
