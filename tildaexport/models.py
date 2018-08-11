@@ -22,7 +22,7 @@ class TildaRequest(models.Model):
             self.request_count += 1
 
 
-class StaticFile(models.model):
+class StaticFile(models.Model):
     filename = models.CharField("Имя файла", max_length=255, null=False, blank=False)
     type = (('image', 'Картинка'), ('js', 'JavaScript-файл'), ('css', 'CSS-файл'))
     path = models.CharField("Путь у нас", max_length=255, null=False, blank=False)
@@ -46,7 +46,7 @@ class Project(models.model):
     ProjectPages = models.ManyToManyField('Page')
 
 
-class Page(models.model):
+class Page(models.Model):
     id = models.CharField("Идентификатор", max_length=255, null=False, blank=False)
     projectid = models.CharField("Проект", max_length=255, null=False, blank=False)
     title = models.CharField("Название", max_length=255, null=False, blank=False)
