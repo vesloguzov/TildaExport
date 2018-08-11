@@ -17,5 +17,5 @@ def projects_list(request):
 
 
 def update_projects(request):
-    TildaRequest.objects.latest('base_url').getprojectslist()
+    TildaRequest.objects.latest("id").getprojectslist()
     projects_list(request)
