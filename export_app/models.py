@@ -15,7 +15,7 @@ class TildaRequest(models.Model):
     name = models.CharField("Имя", max_length=255, null=True, blank=True)
     request_count = models.IntegerField("Количество запросов за час", default=0)
     publickey = "ptjpckc4gc0feyrbgj0w"
-    secretkey = "nil2glnhbg00skcx1"
+    secretkey = "787nil2glnhbg00skcx1"
     base_url = "http://api.tildacdn.info/v1/"
 
     def increment(self):
