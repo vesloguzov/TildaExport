@@ -2,11 +2,11 @@ from django.contrib import admin
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
-from .views import projects_list
+from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('projects', projects_list, name="projects_list"),
+    path('projects', views.projects_list, name="projects_list"),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

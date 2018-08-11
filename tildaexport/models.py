@@ -11,15 +11,14 @@ class Request(models.Model):
     base_url = "http://api.tildacdn.info/v1/"
 
     def getprojectslist(self):
-        self.request_count += 1
         if self.request_count < 120:
-            request = requests.get(
-                f'{self.base_url}getprojectslist/?publickey={self.publickey}&secretkey={self.secretkey}', verify=False)
+            request = requests.get(f'{self.base_url}getprojectslist/?publickey={self.publickey}&secretkey={self.secretkey}', verify=False)
             response = json.loads(request.json())
             if response["status"] == "FOUND":
                 for project in response["result"]:
                     project_object = Project.objects.get_or_create(id=project["id"])
                     project_object.update(title=project["title"], descr=project["descr"])
+            self.request_count += 1
 
 
 class StaticFile(models.model):
