@@ -1,4 +1,4 @@
-#from time import gmtime, strftime
+#from time import gmtime
 from django.db import models
 import requests
 import json
