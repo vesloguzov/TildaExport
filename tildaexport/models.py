@@ -4,7 +4,7 @@ import requests
 import json
 
 
-class Request(models.Model):
+class TildaRequest(models.Model):
     request_count = models.IntegerField("Количество запросов за час", default=0)
     publickey = "ptjpckc4gc0feyrbgj0w"
     secretkey = "nil2glnhbg00skcx1"
