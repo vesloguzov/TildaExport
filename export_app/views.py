@@ -1,6 +1,6 @@
 # from django.http import Http404, JsonResponse
 from django.shortcuts import render
-from export_app.models import Project
+from export_app.models import Project, TildaRequest
 
 
 def projects_list(request):
@@ -15,5 +15,7 @@ def projects_list(request):
         )
     return render(request, "projects.html", context)
 
+
 def update_projects(request):
-    pass
+    TildaRequest.objects.latest().getprojectslist()
+    projects_list(request)
