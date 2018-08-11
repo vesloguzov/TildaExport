@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'tildaexport.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, 'tildaexport/db.sqlite3'),
     }
 }
 
@@ -120,9 +120,9 @@ USE_TZ = True
 
 _PATH = os.path.abspath(os.path.dirname(__file__))
 
-MEDIA_ROOT = os.path.join(_PATH, 'files', 'media')
+MEDIA_ROOT = os.path.join(_PATH, 'tildaexport/files', 'media')
 MEDIA_URL = '/media/'
 
-STATIC_ROOT = os.path.join(_PATH, 'files', 'static')
+STATIC_ROOT = os.path.join(_PATH, 'tildaexport/files', 'static')
 STATIC_URL = '/static/'
 
