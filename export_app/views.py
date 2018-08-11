@@ -16,3 +16,4 @@ def projects_list(request):
     return render(request, "projects.html", context)
 
 def update_projects(request):
+    pass
