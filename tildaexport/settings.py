@@ -120,9 +120,10 @@ USE_TZ = True
 
 _PATH = os.path.abspath(os.path.dirname(__file__))
 
-MEDIA_ROOT = os.path.join(_PATH, 'files', 'media')
-MEDIA_URL = '/media/'
+#MEDIA_ROOT = os.path.join(_PATH, 'files', 'media')
+#MEDIA_URL = '/media/'
 
-STATIC_ROOT = os.path.join(_PATH, 'files', 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+#STATIC_ROOT = '/usr/local/projects/apps/tildaexport/tildaexport/files/static'
 STATIC_URL = '/static/'
 
