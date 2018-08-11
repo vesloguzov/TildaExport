@@ -1,0 +1,8 @@
+#!/bin/bash
+
+case "$1" in
+  "restart")
+    cd /usr/local/projects/apps/tildaexport;
+    git pull;
+    #supervisorctl restart openedu
+    ;;
