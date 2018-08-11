@@ -19,14 +19,17 @@ class TildaRequest(models.Model):
     base_url = "http://api.tildacdn.info/v1/"
 
     def getprojectslist(self):
+        print("STEP 1 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         if self.request_count < 120:
             # request = requests.get(f'{self.base_url}getprojectslist/?publickey={self.publickey}&secretkey={self.secretkey}')
             request = requests.get(
                 "{}getprojectslist/?publickey={}&secretkey={}".format(self.base_url, self.publickey, self.secretkey))
             self.request_count += 1
+            print("request_count 1 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", self.request_count)
             response = request.json()
             if response["status"] == "FOUND":
                 for project in response["result"]:
+                    print("ADDD PROJJJECT")
                     project_object = Project.objects.get_or_create(id=project["id"])
                     project_object.update(title=project["title"], descr=project["descr"])
 
