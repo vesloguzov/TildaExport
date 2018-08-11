@@ -31,7 +31,6 @@ ALLOWED_HOSTS = ["185.93.110.162", "xn--90agdaef2ch0ah.xn--p1ai"]
 # Application definition
 
 INSTALLED_APPS = [
-    'tildaexport'
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
