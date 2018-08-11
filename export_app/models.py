@@ -30,7 +30,7 @@ class StaticFile(models.Model):
 
 
 class Project(models.Model):
-    id = models.CharField("Идентификатор", max_length=255, null=False, blank=False)
+    id = models.CharField("Идентификатор", max_length=255, null=False, blank=False, primary_key=True)
     title = models.CharField("Название", max_length=255, null=False, blank=False)
     descr = models.CharField("Описание", max_length=255, null=True, blank=True)
     customdomain = models.CharField("Домен", max_length=255, null=True, blank=True)
@@ -47,7 +47,7 @@ class Project(models.Model):
 
 
 class Page(models.Model):
-    id = models.CharField("Идентификатор", max_length=255, null=False, blank=False)
+    id = models.CharField("Идентификатор", max_length=255, null=False, blank=False, primary_key=True)
     projectid = models.CharField("Проект", max_length=255, null=False, blank=False)
     title = models.CharField("Название", max_length=255, null=False, blank=False)
     descr = models.CharField("Описание", max_length=255, null=False, blank=True)
