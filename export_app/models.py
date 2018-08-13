@@ -157,6 +157,7 @@ class Page(models.Model):
     # css = models.ManyToManyField('StaticFile')
     # js = models.ManyToManyField('StaticFile')
     html = models.TextField("HTML", default="")
+    page_path = models.CharField("Адрес страницы на сервере", max_length=255, null=True, blank=True)
 
     def save_html_file(self):
         path = os.path.join(settings.MEDIA_ROOT, 'projects', self.projectid)
@@ -166,6 +167,7 @@ class Page(models.Model):
         # response = requests.get(file["from"], stream=True)
         with open(newfile, 'w') as out_file:
             out_file.write(self.html)
+            self.page_path = newfile
 
     def save_static_files(self, files_type, files):
         for file in files:
