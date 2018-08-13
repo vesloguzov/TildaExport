@@ -25,10 +25,11 @@ def update_projects(request):
     return redirect("/projects/")
 
 
-def project(request, project_id):
-    project = Project.objects.get(pk=project_id)
+def project(request, project_ids):
+    project = Project.objects.get(pk=project_ids)
     context = {}
-    context["project"] = project
+    # context["project"] = project
+    # for page in project.
     return render(request, "project.html", context)
 
 
