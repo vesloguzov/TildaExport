@@ -67,8 +67,7 @@ class TildaRequest(models.Model):
             self.increment()
             response = request.json()
             project = Project.objects.get(pk=project_id)
-            if response["status"] == "FOUND" and response["result"] != "null":
-                # if len() > 0:
+            if response["status"] == "FOUND" and response["result"] != None: #ТУТ
                 for page in response["result"]:
                     page_object = project.ProjectPages.get_or_create(id=page["id"])[0]
                     # page_object = Page.objects.get_or_create(id=page["id"])[0]
