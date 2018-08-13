@@ -167,7 +167,8 @@ class Page(models.Model):
         # response = requests.get(file["from"], stream=True)
         with open(newfile, 'w') as out_file:
             out_file.write(self.html)
-            self.page_path = newfile
+        print("newfile", newfile)
+        self.page_path = newfile
 
     def save_static_files(self, files_type, files):
         for file in files:
