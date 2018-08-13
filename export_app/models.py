@@ -168,7 +168,8 @@ class Page(models.Model):
         with open(newfile, 'w') as out_file:
             out_file.write(self.html)
         print("newfile", newfile)
-        self.page_path = newfile
+        self.page_path = os.path.join(settings.MEDIA_URL, 'projects', self.projectid, self.filename)
+        self.save()
 
     def save_static_files(self, files_type, files):
         for file in files:
