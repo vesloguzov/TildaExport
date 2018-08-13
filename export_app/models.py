@@ -51,9 +51,12 @@ class TildaRequest(models.Model):
                 project.export_imgpath = response["result"]["export_imgpath"]
                 project.indexpageid = response["result"]["indexpageid"]
                 project.save()
-                project.save_static_files('js', response["result"]["js"])
-                project.save_static_files('css', response["result"]["css"])
-                project.save_static_files('image', response["result"]["images"])
+                if "js" in response["result"].keys():
+                    project.save_static_files('js', response["result"]["js"])
+                if "css" in response["result"].keys():
+                    project.save_static_files('css', response["result"]["css"])
+                if "images" in response["result"].keys():
+                    project.save_static_files('images', response["result"]["images"])
 
                 # project.
                 # project.
