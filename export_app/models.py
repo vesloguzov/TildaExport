@@ -2,6 +2,7 @@
 from django.db import models
 import requests
 from django.conf import settings
+from binaryornot.check import is_binary
 import json
 import shutil
 import os
@@ -107,7 +108,7 @@ class TildaRequest(models.Model):
                 page_object.html = page["html"]
                 page_object.save()
                 if "images" in response["result"].keys():
-                    page_object.save_static_files('images', response["result"]["images"])
+                    page_object.save_page_images(response["result"]["images"])
                 page_object.save_html_file()
 
 class Project(models.Model):
@@ -161,23 +162,27 @@ class Page(models.Model):
         newfile = os.path.join(settings.MEDIA_ROOT, 'projects', self.projectid, self.filename)
         if not os.path.isdir(path):
             os.mkdir(path)
-        # response = requests.get(file["from"], stream=True)
         with open(newfile, 'w') as out_file:
             out_file.write(self.html)
-        print("newfile", newfile)
+        # print("newfile", newfile)
         self.page_path = os.path.join(settings.MEDIA_URL, 'projects', self.projectid, self.filename)
         self.save()
 
-    def save_static_files(self, files_type, files):
+    def save_page_images(self, files):
         for file in files:
             path = os.path.join(settings.MEDIA_ROOT, 'projects', self.projectid)
             newfile = os.path.join(settings.MEDIA_ROOT, 'projects', self.projectid, file["to"])
             if not os.path.isdir(path):
                 os.mkdir(path)
             response = requests.get(file["from"], stream=True)
-            with open(newfile, 'wb') as out_file:
-                for chunk in response:
-                    out_file.write(chunk)
+            print("is_binary(): ", newfile, is_binary(newfile))
+            if is_binary(newfile):
+                with open(newfile, 'wb') as out_file:
+                    for chunk in response:
+                        out_file.write(chunk)
+            else:
+                with open(newfile, 'w') as out_file:
+                    out_file.write(response.text)
 
 
 class StaticFile(models.Model):
