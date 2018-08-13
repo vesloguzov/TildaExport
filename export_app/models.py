@@ -106,7 +106,11 @@ class Project(models.Model):
 
             response = requests.get(file["from"], stream=True)
             with open(os.path.join(settings.MEDIA_ROOT, 'projects', self.id, file["to"]), 'wb') as out_file:
-                shutil.copyfileobj(response.raw, out_file)
+                if not os.path.isfile(out_file):
+                    shutil.copyfileobj(response.raw, out_file)
+                else:
+                    os.remove(out_file)
+                    shutil.copyfileobj(response.raw, out_file)
 
         print(settings.BASE_DIR)
 
