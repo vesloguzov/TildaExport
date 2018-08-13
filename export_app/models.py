@@ -44,18 +44,25 @@ class TildaRequest(models.Model):
             self.increment()
             response = request.json()
             project = Project.objects.get(pk=project_id)
+
+            print("project", project)
+
             print("response", response)
             if response["status"] == "FOUND":
-                project.id = response["result"]["title"]
+                print("id", response["result"]["id"])
+                project.id = response["result"]["id"]
                 project.title = response["result"]["title"]
-                project.descr = response["result"]["title"]
-                project.customdomain = response["result"]["title"]
-                project.export_csspath = response["result"]["title"]
-                project.export_jspath = response["result"]["title"]
-                project.export_imgpath = response["result"]["title"]
-                project.indexpageid = response["result"]["title"]
-                project.favicon = response["result"]["title"]
-                project.page404id = response["result"]["title"]
+                project.descr = response["result"]["descr"]
+                project.customdomain = response["result"]["customdomain"]
+
+                print("customdomain", response["result"]["customdomain"])
+
+                project.export_csspath = response["result"]["export_csspath"]
+                project.export_jspath = response["result"]["export_jspath"]
+                project.export_imgpath = response["result"]["export_imgpath"]
+                project.indexpageid = response["result"]["indexpageid"]
+                project.favicon = response["result"]["favicon"]
+                project.page404id = response["result"]["page404id"]
                 project.save()
                 # project.
                 # project.
