@@ -27,9 +27,7 @@ def update_projects(request):
 
 def project(request, project_id):
     print("project_id: ", project_id)
-    obj = Project.objects.get(pk=project_id)
-    data = serializers.serialize('json', [obj,])[0]
-    print("project_id: ", data)
-    # struct = json.loads(data)
-    # data = json.dumps(struct[0])
-    return render(request, "project.html", data)
+    project = Project.objects.get(pk=project_id)
+    context = {}
+    context["project"] = project
+    return render(request, "project.html", context)
