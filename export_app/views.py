@@ -30,7 +30,7 @@ def project(request, project_id):
     context = {}
     context["project"] = project
     context["pages"] = []
-    for page in project.ProjectPages:
+    for page in project.ProjectPages.all():
         context["pages"].append(page)
 
     return render(request, "project.html", context)
