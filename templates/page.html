@@ -14,7 +14,13 @@
     <p>Номер очередности в списке страниц: {{ page.sort }}</p>
     <p>Адрес страницы: {{ page.published }}</p>
     <p>Имя файла: {{ page.filename }}</p>
-    <p>Страница на нашем сервере: <a href="{{ page.page_path }}" target="_blank">{{ page.title }}</a></p>
+
+    {% if page.page_path %}
+        <p>Страница на нашем сервере: <a href="{{ page.page_path }}" target="_blank">{{ page.title }}</a></p>
+    {% else %}
+        <p>На нашем сервере еще нет данной страницы. Чтобы она там появилась неоходимо нажать кнопку "Обновить станицу"</p>
+    {% endif %}
+
     <div>{{ page.html }}</div>
 
 {% endblock %}
