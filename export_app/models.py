@@ -4,6 +4,8 @@ import requests
 from django.conf import settings
 import json
 import shutil
+import os
+
 
 class TildaRequest(models.Model):
     name = models.CharField("Имя", max_length=255, null=True, blank=True)
@@ -100,10 +102,10 @@ class Project(models.Model):
         for file in files:
             response = requests.get(file["from"], stream=True)
             with open(file["to"], 'wb') as out_file:
-                shutil.copyfileobj(response.raw, out_file)
+                shutil.copyfileobj(response.raw,
+                                   os.path.join(settings.MEDIA_ROOT, 'projects', self.id, files_type, out_file))
 
         print(settings.BASE_DIR)
-
 
 
 class Page(models.Model):
@@ -130,4 +132,3 @@ class StaticFile(models.Model):
     type = (('image', 'Картинка'), ('js', 'JavaScript-файл'), ('css', 'CSS-файл'))
     path = models.CharField("Путь у нас", max_length=255, null=False, blank=False)
     path_tilda = models.CharField("Путь у них", max_length=255, null=False, blank=False)
-
