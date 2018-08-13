@@ -3,6 +3,7 @@ from django.db import models
 import requests
 from django.conf import settings
 import json
+import shutil
 
 class TildaRequest(models.Model):
     name = models.CharField("Имя", max_length=255, null=True, blank=True)
@@ -48,9 +49,9 @@ class TildaRequest(models.Model):
                 project.export_imgpath = response["result"]["export_imgpath"]
                 project.indexpageid = response["result"]["indexpageid"]
                 project.save()
-                project.save_static_files('css', response["result"]["css"])
+                # project.save_static_files('css', response["result"]["css"])
                 project.save_static_files('js', response["result"]["css"])
-                project.save_static_files('image', response["result"]["images"])
+                # project.save_static_files('image', response["result"]["images"])
 
                 # project.
                 # project.
@@ -66,7 +67,6 @@ class TildaRequest(models.Model):
             if response["status"] == "FOUND" and response["result"] != None:
                 for page in response["result"]:
                     page_object = project.ProjectPages.get_or_create(id=page["id"])[0]
-                    # page_object = Page.objects.get_or_create(id=page["id"])[0]
                     page_object.projectid = page["projectid"]
                     page_object.title = page["title"]
                     page_object.descr = page["descr"]
@@ -97,7 +97,11 @@ class Project(models.Model):
     ProjectPages = models.ManyToManyField('Page', blank=True)
 
     def save_static_files(self, files_type, files):
-        # for file in files:
+        for file in files:
+            response = requests.get(file["from"], stream=True)
+            with open(file["to"], 'wb') as out_file:
+                shutil.copyfileobj(response.raw, out_file)
+
         print(settings.BASE_DIR)
 
 
