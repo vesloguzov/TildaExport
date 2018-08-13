@@ -90,9 +90,9 @@ class TildaRequest(models.Model):
                                                                                   self.secretkey, page_id))
             self.increment()
             response = request.json()
-            print(response)
+            # print(response)
             if response["status"] == "FOUND":
-                print("id", response["result"]["id"])
+                # print("id", response["result"]["id"])
                 page = response["result"]
                 page_object = Page.objects.get(pk=page_id)
                 page_object.projectid = page["projectid"]
