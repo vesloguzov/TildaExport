@@ -9,11 +9,16 @@
     <p>Домен: {{ project.customdomain }}</p>
     <p>Картинка: {{ project.favicon }}</p>
     <p>static_files: {{ project.static_files }}</p>
-    <p>ProjectPages: {{ project.ProjectPages }}</p>
 
-    {% for page in pages %}
-        <li><a href="/projects/{{ project.id }}/page/{{ page.id }}/">{{ page.title }}</a></li>
-    {% endfor %}
+    {% if pages %}
+        <p>Страницы проектов:</p>
+        {% for page in pages %}
+            <li><a href="/projects/{{ project.id }}/page/{{ page.id }}/">{{ page.title }}</a></li>
+        {% endfor %}
+    {% else %}
+        <p>Проект не имеет страниц.</p>
+    {% endif %}
+
 
     <a href="update_project/" class="item">Обновить проект</a>
 {% endblock %}

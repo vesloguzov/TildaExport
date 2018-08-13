@@ -27,7 +27,7 @@ def update_projects(request):
 
 def project(request, project_id):
     project = Project.objects.get(pk=project_id)
-    context = {}
+    context = dict()
     context["project"] = project
     context["pages"] = []
     for page in project.ProjectPages.all():
@@ -44,6 +44,6 @@ def update_project(request, project_id):
 
 def page(request, project_id, page_id):
     page = Project.objects.get(pk=project_id).ProjectPages.all().get(pk=page_id)
-    context = {}
+    context = dict()
     context["page"] = page
     return render(request, "page.html", context)
