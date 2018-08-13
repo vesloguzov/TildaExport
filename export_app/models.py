@@ -175,7 +175,7 @@ class Page(models.Model):
                 os.mkdir(path)
             response = requests.get(file["from"], stream=True)
             with open(newfile, 'wb') as out_file:
-                for chunk in r:
+                for chunk in response:
                     out_file.write(chunk)
 
 
