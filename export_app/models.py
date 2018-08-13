@@ -68,20 +68,21 @@ class TildaRequest(models.Model):
             response = request.json()
             project = Project.objects.get(pk=project_id)
             if response["status"] == "FOUND":
-                for page in response["result"]:
-                    page_object = project.ProjectPages.get_or_create(id=page["id"])[0]
-                    # page_object = Page.objects.get_or_create(id=page["id"])[0]
-                    page_object.projectid = page["projectid"]
-                    page_object.title = page["title"]
-                    page_object.descr = page["descr"]
-                    page_object.img = page["img"]
-                    page_object.featureimg = page["featureimg"]
-                    page_object.alias = page["alias"]
-                    page_object.date = page["date"]
-                    page_object.sort = page["sort"]
-                    page_object.published = page["published"]
-                    page_object.filename = page["filename"]
-                    page_object.save()
+                if len(response["result"]) > 0:
+                    for page in response["result"]:
+                        page_object = project.ProjectPages.get_or_create(id=page["id"])[0]
+                        # page_object = Page.objects.get_or_create(id=page["id"])[0]
+                        page_object.projectid = page["projectid"]
+                        page_object.title = page["title"]
+                        page_object.descr = page["descr"]
+                        page_object.img = page["img"]
+                        page_object.featureimg = page["featureimg"]
+                        page_object.alias = page["alias"]
+                        page_object.date = page["date"]
+                        page_object.sort = page["sort"]
+                        page_object.published = page["published"]
+                        page_object.filename = page["filename"]
+                        page_object.save()
 
 class Project(models.Model):
     id = models.CharField("Идентификатор", max_length=255, null=False, blank=False, primary_key=True)
