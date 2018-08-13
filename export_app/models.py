@@ -106,7 +106,7 @@ class Project(models.Model):
                 os.mkdir(path)
 
             response = requests.get(file["from"], stream=True)
-            with open(newfile, 'wb') as out_file:
+            with open(newfile, 'w') as out_file:
                 out_file.write(response.text)
                 # if not os.path.isfile(newfile):
                 #     print("No file")
