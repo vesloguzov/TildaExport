@@ -102,10 +102,10 @@ class Project(models.Model):
         for file in files:
             # path =
 
-            os.mkdir(os.path.join(settings.MEDIA_URL, 'projects', self.id, files_type))
+            os.mkdir(os.path.join(settings.MEDIA_ROOT, 'projects', self.id))
 
             response = requests.get(file["from"], stream=True)
-            with open(os.path.join(settings.MEDIA_URL, 'projects', self.id, files_type, file["to"]), 'wb') as out_file:
+            with open(os.path.join(settings.MEDIA_ROOT, 'projects', self.id, file["to"]), 'wb') as out_file:
                 shutil.copyfileobj(response.raw, out_file)
 
         print(settings.BASE_DIR)
