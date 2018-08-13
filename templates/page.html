@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
+    <a href="/projects/{{ page.projectid }}/">К проекту</a>
     <p>Идентификатор: {{ page.id }}</p>
     <p>Название: {{ page.title }}</p>
     <p>Описание: {{ page.descr }}</p>
