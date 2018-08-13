@@ -50,7 +50,6 @@ def page(request, project_id, page_id):
 
 
 def update_page(request, project_id, page_id):
-    # return page()
     tr = TildaRequest.objects.latest("id")
     tr.getpagefullexport(project_id, page_id)
     return redirect("/projects/{}/page/{}/".format(project_id, page_id))

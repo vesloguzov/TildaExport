@@ -14,9 +14,7 @@
     <p>Номер очередности в списке страниц: {{ page.sort }}</p>
     <p>Адрес страницы: {{ page.published }}</p>
     <p>Имя файла: {{ page.filename }}</p>
-    <p>Страница на нашем сервере: <a href="{{ page.page_path }}">{{ page.title }}</a></p>
+    <p>Страница на нашем сервере: <a href="{{ page.page_path }}" target="_blank">{{ page.title }}</a></p>
     <div>{{ page.html }}</div>
-
-
 
 {% endblock %}

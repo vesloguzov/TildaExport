@@ -58,8 +58,6 @@ class TildaRequest(models.Model):
                 if "images" in response["result"].keys():
                     project.save_static_files('images', response["result"]["images"])
 
-                # project.
-                # project.
 
     def getpageslist(self, project_id):
         if self.request_count < self.requests_limit:
@@ -137,7 +135,6 @@ class Project(models.Model):
             response = requests.get(file["from"], stream=True)
             with open(newfile, 'w') as out_file:
                 out_file.write(response.text)
-        # print(settings.BASE_DIR)
 
 
 class Page(models.Model):
