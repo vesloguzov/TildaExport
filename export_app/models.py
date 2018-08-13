@@ -1,15 +1,8 @@
 # from time import gmtime
 from django.db import models
 import requests
+from django.conf import settings
 import json
-
-
-class StaticFile(models.Model):
-    filename = models.CharField("Имя файла", max_length=255, null=False, blank=False)
-    type = (('image', 'Картинка'), ('js', 'JavaScript-файл'), ('css', 'CSS-файл'))
-    path = models.CharField("Путь у нас", max_length=255, null=False, blank=False)
-    path_tilda = models.CharField("Путь у них", max_length=255, null=False, blank=False)
-
 
 class TildaRequest(models.Model):
     name = models.CharField("Имя", max_length=255, null=True, blank=True)
@@ -29,7 +22,6 @@ class TildaRequest(models.Model):
                 "{}getprojectslist/?publickey={}&secretkey={}".format(self.base_url, self.publickey, self.secretkey))
             self.increment()
             response = request.json()
-            # print(response)
             if response["status"] == "FOUND":
                 for project in response["result"]:
                     project_object = Project.objects.get_or_create(id=project["id"])[0]
@@ -56,6 +48,10 @@ class TildaRequest(models.Model):
                 project.export_imgpath = response["result"]["export_imgpath"]
                 project.indexpageid = response["result"]["indexpageid"]
                 project.save()
+                project.save_static_files('css', response["result"]["css"])
+                project.save_static_files('js', response["result"]["css"])
+                project.save_static_files('image', response["result"]["images"])
+
                 # project.
                 # project.
 
@@ -100,6 +96,11 @@ class Project(models.Model):
     # css = models.ManyToManyField('StaticFile')
     ProjectPages = models.ManyToManyField('Page', blank=True)
 
+    def save_static_files(self, files_type, files):
+        # for file in files:
+        print(settings.BASE_DIR)
+
+
 
 class Page(models.Model):
     id = models.CharField("Идентификатор", max_length=255, null=False, blank=False, primary_key=True)
@@ -118,3 +119,11 @@ class Page(models.Model):
     # css = models.ManyToManyField('StaticFile')
     # js = models.ManyToManyField('StaticFile')
     html = models.TextField("HTML", default="")
+
+
+class StaticFile(models.Model):
+    filename = models.CharField("Имя файла", max_length=255, null=False, blank=False)
+    type = (('image', 'Картинка'), ('js', 'JavaScript-файл'), ('css', 'CSS-файл'))
+    path = models.CharField("Путь у нас", max_length=255, null=False, blank=False)
+    path_tilda = models.CharField("Путь у них", max_length=255, null=False, blank=False)
+
