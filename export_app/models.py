@@ -6,13 +6,13 @@ import json
 import shutil
 import os
 
+
 def is_binary(obj):
     try:
         str(obj)
         return True
-    except:
+    except TypeError:
         return False
-
 
 
 class TildaRequest(models.Model):
@@ -66,7 +66,6 @@ class TildaRequest(models.Model):
                 if "images" in response["result"].keys():
                     project.save_static_files('images', response["result"]["images"])
 
-
     def getpageslist(self, project_id):
         if self.request_count < self.requests_limit:
             request = requests.get(
@@ -117,6 +116,7 @@ class TildaRequest(models.Model):
                 if "images" in response["result"].keys():
                     page_object.save_page_images(response["result"]["images"])
                 page_object.save_html_file()
+
 
 class Project(models.Model):
     id = models.CharField("Идентификатор", max_length=255, null=False, blank=False, primary_key=True)
