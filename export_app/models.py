@@ -17,13 +17,14 @@ class TildaRequest(models.Model):
     publickey = "ptjpckc4gc0feyrbgj0w"
     secretkey = "787nil2glnhbg00skcx1"
     base_url = "http://api.tildacdn.info/v1/"
+    requests_limit = 120
 
     def increment(self):
         self.request_count = self.request_count + 1
         self.save()
 
     def getprojectslist(self):
-        if self.request_count < 120:
+        if self.request_count < self.requests_limit:
             request = requests.get(
                 "{}getprojectslist/?publickey={}&secretkey={}".format(self.base_url, self.publickey, self.secretkey))
             self.increment()
@@ -35,6 +36,30 @@ class TildaRequest(models.Model):
                     project_object.title = project["title"]
                     project_object.descr = project["descr"]
                     project_object.save()
+
+    def getprojectexport(self, project_id):
+        if self.request_count < self.requests_limit:
+            request = requests.get(
+                "{}getprojectexport/?publickey={}&secretkey={}&projectid={}".format(self.base_url, self.publickey, self.secretkey, project_id))
+            self.increment()
+            response = request.json()
+            project = Project.objects.get(pk=project_id)
+            print("response", response)
+            if response["status"] == "FOUND":
+                project.id = response["result"]["title"]
+                project.title = response["result"]["title"]
+                project.descr = response["result"]["title"]
+                project.customdomain = response["result"]["title"]
+                project.export_csspath = response["result"]["title"]
+                project.export_jspath = response["result"]["title"]
+                project.export_imgpath = response["result"]["title"]
+                project.indexpageid = response["result"]["title"]
+                project.favicon = response["result"]["title"]
+                project.page404id = response["result"]["title"]
+                project.save()
+                # project.
+                # project.
+
 
 
 class Project(models.Model):
