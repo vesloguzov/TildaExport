@@ -11,5 +11,9 @@
     <p>static_files: {{ project.static_files }}</p>
     <p>ProjectPages: {{ project.ProjectPages }}</p>
 
+    {% for page in pages %}
+        <li>{{ page.title }}</li>
+    {% endfor %}
+
     <a href="update_project/" class="item">Обновить проект</a>
 {% endblock %}
