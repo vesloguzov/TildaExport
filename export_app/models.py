@@ -107,7 +107,7 @@ class Project(models.Model):
 
             response = requests.get(file["from"], stream=True)
             with open(newfile, 'wb') as out_file:
-                out_file.writelines([response.text])
+                out_file.write(response.text)
                 # if not os.path.isfile(newfile):
                 #     print("No file")
                 #     shutil.copyfileobj(response.raw, out_file)
