@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-    <a href="/projects/{{ page.projectid }}/">К проекту</a>
+    <a href="/projects/{{ page.projectid }}/">К проекту</a>    <a href="update_page/" class="item">Обновить страницу</a>
 
     <p>Название: {{ page.title }}</p>
     <p>Идентификатор: {{ page.id }}</p>
@@ -17,5 +17,5 @@
     <p>RAW HTML: {{ page.html }}</p>
 
 
-    <a href="update_page/" class="item">Обновить страницу</a>
+
 {% endblock %}

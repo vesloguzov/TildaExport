@@ -109,7 +109,7 @@ class TildaRequest(models.Model):
                 page_object.html = page["html"]
                 page_object.save()
                 if "images" in response["result"].keys():
-                    page.save_static_files('images', response["result"]["images"])
+                    page_object.save_static_files('images', response["result"]["images"])
                 page_object.save_html_file()
 
 class Project(models.Model):
