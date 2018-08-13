@@ -108,8 +108,10 @@ class Project(models.Model):
             response = requests.get(file["from"], stream=True)
             with open(newfile, 'wb') as out_file:
                 if not os.path.isfile(newfile):
+                    print("No file")
                     shutil.copyfileobj(response.raw, out_file)
                 else:
+                    print("File exists")
                     os.remove(newfile)
                     shutil.copyfileobj(response.raw, out_file)
 
