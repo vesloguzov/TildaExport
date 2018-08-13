@@ -88,7 +88,7 @@ class TildaRequest(models.Model):
         if self.request_count < self.requests_limit:
             request = requests.get(
                 "{}getpagefullexport/?publickey={}&secretkey={}&pageid={}".format(self.base_url, self.publickey,
-                                                                                self.secretkey, page_id))
+                                                                                  self.secretkey, page_id))
             self.increment()
             response = request.json()
             print(response)
@@ -108,6 +108,9 @@ class TildaRequest(models.Model):
                 page_object.filename = page["filename"]
                 page_object.html = page["html"]
                 page_object.save()
+                if "images" in response["result"].keys():
+                    page.save_static_files('images', response["result"]["images"])
+                page_object.save_html_file()
 
 class Project(models.Model):
     id = models.CharField("Идентификатор", max_length=255, null=False, blank=False, primary_key=True)
@@ -154,6 +157,25 @@ class Page(models.Model):
     # css = models.ManyToManyField('StaticFile')
     # js = models.ManyToManyField('StaticFile')
     html = models.TextField("HTML", default="")
+
+    def save_html_file(self):
+        path = os.path.join(settings.MEDIA_ROOT, 'projects', self.id)
+        newfile = os.path.join(settings.MEDIA_ROOT, 'projects', self.id, self.filename)
+        if not os.path.isdir(path):
+            os.mkdir(path)
+        # response = requests.get(file["from"], stream=True)
+        with open(newfile, 'w') as out_file:
+            out_file.write(self.html)
+
+    def save_static_files(self, files_type, files):
+        for file in files:
+            path = os.path.join(settings.MEDIA_ROOT, 'projects', self.id)
+            newfile = os.path.join(settings.MEDIA_ROOT, 'projects', self.id, file["to"])
+            if not os.path.isdir(path):
+                os.mkdir(path)
+            response = requests.get(file["from"], stream=True)
+            with open(newfile, 'w') as out_file:
+                out_file.write(response.text)
 
 
 class StaticFile(models.Model):
