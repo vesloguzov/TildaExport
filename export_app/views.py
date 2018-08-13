@@ -33,7 +33,6 @@ def project(request, project_id):
 
 
 def update_project(request, project_id):
-    print("project_id: ", project_id)
     tr = TildaRequest.objects.latest("id")
     tr.getprojectexport(project_id)
     return redirect("/projects/{}/".format(project_id))

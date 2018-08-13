@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-    <a href="/projects/" class="item">Обновить проект</a>
-    <a href="update_project/" class="item">Обновить проект</a>
+    <a href="/projects/" class="item">К списку проектов</a>
+
     <p>Идентификатор: {{ project.id }}</p>
     <p>Название: {{ project.title }}</p>
     <p>Описание: {{ project.descr }}</p>
@@ -10,4 +10,6 @@
     <p>Картинка: {{ project.favicon }}</p>
     <p>static_files: {{ project.static_files }}</p>
     <p>ProjectPages: {{ project.ProjectPages }}</p>
+
+    <a href="update_project/" class="item">Обновить проект</a>
 {% endblock %}
