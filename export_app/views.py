@@ -34,4 +34,4 @@ def project(request, project_id):
 
 def update_project(request, project_id):
     print("project_id: ", project_id)
-    return project(request, project_id)
+    return redirect("/project/{}/".format(project_id))
