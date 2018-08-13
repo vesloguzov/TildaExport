@@ -51,9 +51,9 @@ class TildaRequest(models.Model):
                 project.export_imgpath = response["result"]["export_imgpath"]
                 project.indexpageid = response["result"]["indexpageid"]
                 project.save()
-                # project.save_static_files('js', response["result"]["js"])
+                project.save_static_files('js', response["result"]["js"])
                 project.save_static_files('css', response["result"]["css"])
-                # project.save_static_files('image', response["result"]["images"])
+                project.save_static_files('image', response["result"]["images"])
 
                 # project.
                 # project.
@@ -104,18 +104,9 @@ class Project(models.Model):
             newfile = os.path.join(settings.MEDIA_ROOT, 'projects', self.id, file["to"])
             if not os.path.isdir(path):
                 os.mkdir(path)
-
             response = requests.get(file["from"], stream=True)
             with open(newfile, 'w') as out_file:
                 out_file.write(response.text)
-                # if not os.path.isfile(newfile):
-                #     print("No file")
-                #     shutil.copyfileobj(response.raw, out_file)
-                # else:
-                #     print("File exists")
-                #     os.remove(newfile)
-                #     shutil.copyfileobj(response.raw, out_file)
-
         print(settings.BASE_DIR)
 
 
