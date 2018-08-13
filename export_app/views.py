@@ -43,7 +43,7 @@ def update_project(request, project_id):
 
 
 def page(request, project_id, page_id):
-    page = Project.objects.get(pk=project_id).ProjectPages.all().objects.get(pk=page_id)
+    page = Project.objects.get(pk=project_id).ProjectPages.all().get(pk=page_id)
     context = {}
     context["page"] = page
     return render(request, "page.html", context)
