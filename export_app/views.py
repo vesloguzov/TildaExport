@@ -40,3 +40,10 @@ def update_project(request, project_id):
     tr.getprojectexport(project_id)
     tr.getpageslist(project_id)
     return redirect("/projects/{}/".format(project_id))
+
+
+def page(request, project_id, page_id):
+    page = Project.objects.get(pk=project_id).ProjectPages.objects.get(pk=page_id)
+    context = {}
+    context["page"] = page
+    return render(request, "page.html", context)

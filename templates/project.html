@@ -12,7 +12,7 @@
     <p>ProjectPages: {{ project.ProjectPages }}</p>
 
     {% for page in pages %}
-        <li>{{ page.title }}</li>
+        <li><a href="/projects/{{ project.id }}/page/{{ page.id }}/">{{ page.title }}</a></li>
     {% endfor %}
 
     <a href="update_project/" class="item">Обновить проект</a>

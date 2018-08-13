@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    <p>Идентификатор: {{ page.id }}</p>
+    <p>Название: {{ page.title }}</p>
+    <p>Описание: {{ page.descr }}</p>
+    <a href="#" class="item">Обновить страницу</a>
+{% endblock %}
