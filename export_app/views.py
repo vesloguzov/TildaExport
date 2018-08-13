@@ -26,8 +26,12 @@ def update_projects(request):
 
 
 def project(request, project_id):
-    print("project_id: ", project_id)
     project = Project.objects.get(pk=project_id)
     context = {}
     context["project"] = project
     return render(request, "project.html", context)
+
+
+def update_project(request, project_id):
+    print("project_id: ", project_id)
+    return project(request, project_id)
