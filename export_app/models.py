@@ -44,25 +44,16 @@ class TildaRequest(models.Model):
             self.increment()
             response = request.json()
             project = Project.objects.get(pk=project_id)
-
-            print("project", project)
-
-            print("response", response)
             if response["status"] == "FOUND":
                 print("id", response["result"]["id"])
                 project.id = response["result"]["id"]
                 project.title = response["result"]["title"]
                 project.descr = response["result"]["descr"]
                 project.customdomain = response["result"]["customdomain"]
-
-                print("customdomain", response["result"]["customdomain"])
-
                 project.export_csspath = response["result"]["export_csspath"]
                 project.export_jspath = response["result"]["export_jspath"]
                 project.export_imgpath = response["result"]["export_imgpath"]
                 project.indexpageid = response["result"]["indexpageid"]
-                project.favicon = response["result"]["favicon"]
-                project.page404id = response["result"]["page404id"]
                 project.save()
                 # project.
                 # project.
@@ -78,8 +69,8 @@ class Project(models.Model):
     export_jspath = models.CharField("Путь экспорта", max_length=255, null=True, blank=True)
     export_imgpath = models.CharField("Путь экспорта", max_length=255, null=True, blank=True)
     indexpageid = models.CharField("indexpageid", max_length=255, null=True, blank=True)
-    favicon = models.CharField("Картинка", max_length=255, null=True, blank=True)
-    page404id = models.CharField("page404id", max_length=255, null=True, blank=True)
+    # favicon = models.CharField("Картинка", max_length=255, null=True, blank=True)
+    # page404id = models.CharField("page404id", max_length=255, null=True, blank=True)
     static_files = models.ManyToManyField('StaticFile', blank=True)
     # js = models.ManyToManyField('StaticFile')
     # css = models.ManyToManyField('StaticFile')
