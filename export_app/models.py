@@ -41,7 +41,7 @@ class TildaRequest(models.Model):
             response = request.json()
             project = Project.objects.get(pk=project_id)
             if response["status"] == "FOUND":
-                print("id", response["result"]["id"])
+                # print("id", response["result"]["id"])
                 project.id = response["result"]["id"]
                 project.title = response["result"]["title"]
                 project.descr = response["result"]["descr"]
@@ -84,6 +84,30 @@ class TildaRequest(models.Model):
                     page_object.filename = page["filename"]
                     page_object.save()
 
+    def getpagefullexport(self, project_id, page_id):
+        if self.request_count < self.requests_limit:
+            request = requests.get(
+                "{}getpageslist/?publickey={}&secretkey={}&pageid={}".format(self.base_url, self.publickey,
+                                                                                self.secretkey, page_id))
+            self.increment()
+            response = request.json()
+            print(response)
+            if response["status"] == "FOUND":
+                print("id", response["result"]["id"])
+                page = response["result"]
+                page_object = Page.objects.get(pk=page_id)
+                page_object.projectid = page["projectid"]
+                page_object.title = page["title"]
+                page_object.descr = page["descr"]
+                page_object.img = page["img"]
+                page_object.featureimg = page["featureimg"]
+                page_object.alias = page["alias"]
+                page_object.date = page["date"]
+                page_object.sort = page["sort"]
+                page_object.published = page["published"]
+                page_object.filename = page["filename"]
+                page_object.html = page["html"]
+                page_object.save()
 
 class Project(models.Model):
     id = models.CharField("Идентификатор", max_length=255, null=False, blank=False, primary_key=True)
@@ -110,7 +134,7 @@ class Project(models.Model):
             response = requests.get(file["from"], stream=True)
             with open(newfile, 'w') as out_file:
                 out_file.write(response.text)
-        print(settings.BASE_DIR)
+        # print(settings.BASE_DIR)
 
 
 class Page(models.Model):

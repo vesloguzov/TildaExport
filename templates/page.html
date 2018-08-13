@@ -2,8 +2,20 @@
 {% load static %}
 {% block content %}
     <a href="/projects/{{ page.projectid }}/">К проекту</a>
-    <p>Идентификатор: {{ page.id }}</p>
+
     <p>Название: {{ page.title }}</p>
+    <p>Идентификатор: {{ page.id }}</p>
     <p>Описание: {{ page.descr }}</p>
-    <a href="#" class="item">Обновить страницу</a>
+    <p>ИД проекта: {{ page.projectid }}</p>
+    <p>Картинка: {{ page.img }}</p>
+    <p>featureimg: {{ page.featureimg }}</p>
+    <p>alias: {{ page.alias }}</p>
+    <p>Дата создания: {{ page.date }}</p>
+    <p>Номер очередности в списке страниц: {{ page.sort }}</p>
+    <p>Адрес страницы: {{ page.published }}</p>
+    <p>Имя файла: {{ page.filename }}</p>
+    <p>RAW HTML: {{ page.html }}</p>
+
+
+    <a href="update_page/" class="item">Обновить страницу</a>
 {% endblock %}
