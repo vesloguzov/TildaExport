@@ -175,7 +175,8 @@ class Page(models.Model):
                 os.mkdir(path)
             response = requests.get(file["from"], stream=True)
             with open(newfile, 'wb') as out_file:
-                out_file.write(response.raw)
+                for chunk in r:
+                    out_file.write(chunk)
 
 
 class StaticFile(models.Model):
