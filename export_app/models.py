@@ -101,15 +101,16 @@ class Project(models.Model):
     def save_static_files(self, files_type, files):
         for file in files:
             path = os.path.join(settings.MEDIA_ROOT, 'projects', self.id)
+            newfile = os.path.join(settings.MEDIA_ROOT, 'projects', self.id, file["to"])
             if not os.path.isdir(path):
                 os.mkdir(path)
 
             response = requests.get(file["from"], stream=True)
-            with open(os.path.join(settings.MEDIA_ROOT, 'projects', self.id, file["to"]), 'wb') as out_file:
-                if not os.path.isfile(out_file):
+            with open(newfile, 'wb') as out_file:
+                if not os.path.isfile(newfile):
                     shutil.copyfileobj(response.raw, out_file)
                 else:
-                    os.remove(out_file)
+                    os.remove(newfile)
                     shutil.copyfileobj(response.raw, out_file)
 
         print(settings.BASE_DIR)
