@@ -2,6 +2,7 @@
 {% load static %}
 {% block content %}
     <a href="/projects/" class="item">К списку проектов</a>
+    <a href="update_project/" class="item">Обновить проект</a>
 
     <p>Идентификатор: {{ project.id }}</p>
     <p>Название: {{ project.title }}</p>
@@ -18,7 +19,4 @@
     {% else %}
         <p>Проект не имеет страниц.</p>
     {% endif %}
-
-
-    <a href="update_project/" class="item">Обновить проект</a>
 {% endblock %}
