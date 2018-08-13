@@ -175,8 +175,8 @@ class Page(models.Model):
             if not os.path.isdir(path):
                 os.mkdir(path)
             response = requests.get(file["from"], stream=True)
-            print("is_binary(): ", newfile, is_binary(newfile))
-            if is_binary(newfile):
+            print("is_binary(): ", newfile, is_binary(response))
+            if is_binary(response):
                 with open(newfile, 'wb') as out_file:
                     for chunk in response:
                         out_file.write(chunk)
