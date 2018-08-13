@@ -5,13 +5,12 @@ from django.conf import settings
 import json
 import shutil
 import os
-import re
 
 def is_binary(obj):
-    isBin = re.compile('^[01]{8}$')
-    if obj.match(isBin):
+    try:
+        str(obj)
         return True
-    else:
+    except:
         return False
 
 
