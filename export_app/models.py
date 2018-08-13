@@ -2,10 +2,18 @@
 from django.db import models
 import requests
 from django.conf import settings
-from binaryornot.check import is_binary
 import json
 import shutil
 import os
+import re
+
+def is_binary(obj):
+    isBin = re.compile('^[01]{8}$')
+    if obj.match(isBin):
+        return True
+    else:
+        return False
+
 
 
 class TildaRequest(models.Model):
