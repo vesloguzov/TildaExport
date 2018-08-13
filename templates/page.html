@@ -14,7 +14,7 @@
     <p>Номер очередности в списке страниц: {{ page.sort }}</p>
     <p>Адрес страницы: {{ page.published }}</p>
     <p>Имя файла: {{ page.filename }}</p>
-    <p>RAW HTML: {{ page.html }}</p>
+    <div>{{ page.html|safe }}</div>
 
 
 
