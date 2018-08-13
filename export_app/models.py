@@ -87,7 +87,7 @@ class TildaRequest(models.Model):
     def getpagefullexport(self, project_id, page_id):
         if self.request_count < self.requests_limit:
             request = requests.get(
-                "{}getpageslist/?publickey={}&secretkey={}&pageid={}".format(self.base_url, self.publickey,
+                "{}getpagefullexport/?publickey={}&secretkey={}&pageid={}".format(self.base_url, self.publickey,
                                                                                 self.secretkey, page_id))
             self.increment()
             response = request.json()
