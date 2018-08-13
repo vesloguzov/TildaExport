@@ -35,4 +35,5 @@ def project(request, project_id):
 def update_project(request, project_id):
     tr = TildaRequest.objects.latest("id")
     tr.getprojectexport(project_id)
+    tr.getpageslist(project_id)
     return redirect("/projects/{}/".format(project_id))
