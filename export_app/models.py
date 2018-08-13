@@ -23,20 +23,17 @@ class TildaRequest(models.Model):
         self.save()
 
     def getprojectslist(self):
-        print("STEP 1 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         if self.request_count < 120:
-            # request = requests.get(f'{self.base_url}getprojectslist/?publickey={self.publickey}&secretkey={self.secretkey}')
             request = requests.get(
                 "{}getprojectslist/?publickey={}&secretkey={}".format(self.base_url, self.publickey, self.secretkey))
             self.increment()
             response = request.json()
-            print(response)
+            # print(response)
             if response["status"] == "FOUND":
                 for project in response["result"]:
-                    print("ADDD PROJJJECT")
                     project_object = Project.objects.get_or_create(id=project["id"])[0]
-                    project_object.title=project["title"]
-                    project_object.descr=project["descr"]
+                    project_object.title = project["title"]
+                    project_object.descr = project["descr"]
                     project_object.save()
 
 

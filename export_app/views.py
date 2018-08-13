@@ -21,3 +21,9 @@ def update_projects(request):
     tr.getprojectslist()
     print("TildaRequest.objects.latest()", TildaRequest.objects.latest("id"))
     return redirect("/projects/")
+
+
+def project(request, project_id):
+    print("project_id: ", project_id)
+    context = Project.objects.get(pk=project_id)
+    return render(request, "project.html", context)
