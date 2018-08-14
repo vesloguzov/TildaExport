@@ -11,8 +11,9 @@
 
     <div class="ui link cards">
         {% for project in projects %}
-        <a href="/projects/{{ project.id }}/">
+
         <div class="card">
+        <a href="/projects/{{ project.id }}/">
 {#            <div class="image">#}
 {#                <img src="/images/avatar2/large/matthew.png">#}
 {#            </div>#}
@@ -32,8 +33,9 @@
 {#        75 Friends#}
 {#      </span>#}
 {#            </div>#}
+       </a>
         </div>
-        </a>
+
     {% endfor %}
     </div>
 
