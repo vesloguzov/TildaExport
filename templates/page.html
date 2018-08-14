@@ -3,14 +3,16 @@
 {% block content %}
 
     <div class="ui big breadcrumb">
-      <a class="section">Проекты</a>
+      <a href="/projects/" class="section">Проекты</a>
       <i class="right chevron icon divider"></i>
-      <a href="/projects/{{ page.projectid }}/"class="section">{{ project.title }}</a>
+      <a href="/projects/{{ page.projectid }}/" class="section">{{ project.title }}</a>
       <i class="right chevron icon divider"></i>
       <div class="active section">{{ page.title }}</div>
 </div>
 
-    <a href="/projects/{{ page.projectid }}/">К проекту</a>    <a href="update_page/" class="item">Обновить страницу</a>
+
+
+    <p><a href="update_page/" class="item">Обновить страницу</a></p>
 
     <p>Название: {{ page.title }}</p>
     <p>Идентификатор: {{ page.id }}</p>
