@@ -3,12 +3,12 @@
 {% block content %}
 
     <div class="ui big breadcrumb">
-      <a href="/projects/" class="section">Проекты</a>
-      <i class="right chevron icon divider"></i>
-      <a href="/projects/{{ page.projectid }}/" class="section">{{ project.title }}</a>
-      <i class="right chevron icon divider"></i>
-      <div class="active section">{{ page.title }}</div>
-</div>
+        <a href="/projects/" class="section">Проекты</a>
+        <i class="right chevron icon divider"></i>
+        <a href="/projects/{{ page.projectid }}/" class="section">{{ project.title }}</a>
+        <i class="right chevron icon divider"></i>
+        <div class="active section">{{ page.title }}</div>
+    </div>
 
 
 
@@ -29,7 +29,8 @@
     {% if page.page_path %}
         <p>Страница на нашем сервере: <a href="{{ page.page_path }}" target="_blank">{{ page.title }}</a></p>
     {% else %}
-        <p>На нашем сервере еще нет данной страницы. Чтобы она там появилась неоходимо нажать кнопку "Обновить станицу"</p>
+        <p>На нашем сервере еще нет данной страницы. Чтобы она там появилась неоходимо нажать кнопку "Обновить
+            станицу"</p>
     {% endif %}
 
     <div>{{ page.html }}</div>

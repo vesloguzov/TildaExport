@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-    <p>Все проекты:</p>
+    <div class="ui big breadcrumb">
+        <div class="active section">Проекты</div>
+    </div>
     {% for project in projects %}
         <li><a href="/projects/{{ project.id }}/">{{ project.title }}</a></li>
     {% endfor %}
