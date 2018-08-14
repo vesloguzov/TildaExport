@@ -4,9 +4,37 @@
     <div class="ui big breadcrumb">
         <div class="active section">Проекты</div>
     </div>
-    {% for project in projects %}
-        <li><a href="/projects/{{ project.id }}/">{{ project.title }}</a></li>
-    {% endfor %}
 
-     <a href="/projects/update_projects/" class="item">Обновить проекты</a>
+        <li><a href="/projects/{{ project.id }}/">{{ project.title }}</a></li>
+
+
+
+    <div class="ui link cards">
+        {% for project in projects %}
+        <div class="card">
+{#            <div class="image">#}
+{#                <img src="/images/avatar2/large/matthew.png">#}
+{#            </div>#}
+            <div class="content">
+                <div class="header">{{ project.title }}</div>
+
+                <div class="description">
+                   {{ project.descr }}
+                </div>
+            </div>
+            <div class="extra content">
+{#      <span class="right floated">#}
+{#        Joined in 2013#}
+{#      </span>#}
+{#                <span>#}
+{#        <i class="user icon"></i>#}
+{#        75 Friends#}
+{#      </span>#}
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+
+
+    <a href="/projects/update_projects/" class="item">Обновить проекты</a>
 {% endblock %}
