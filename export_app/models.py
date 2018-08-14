@@ -111,7 +111,7 @@ class TildaRequest(models.Model):
                 page_object.sort = page["sort"]
                 page_object.published = page["published"]
                 page_object.filename = page["filename"]
-                page_object.html = page["html"]
+                page_object.html = page["html"] if page["html"] is not None else ""
                 page_object.save()
                 if "images" in response["result"].keys():
                     page_object.save_page_images(response["result"]["images"])
