@@ -48,6 +48,7 @@ def page(request, project_id, page_id):
     context = dict()
     context["page"] = page
     context["project"] = project
+    print(context)
     return render(request, "page.html", context)
 
 
