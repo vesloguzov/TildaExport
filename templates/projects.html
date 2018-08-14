@@ -5,12 +5,13 @@
         <div class="active section">Проекты</div>
     </div>
 
-        <li><a href="/projects/{{ project.id }}/">{{ project.title }}</a></li>
+{#        <li><a href="/projects/{{ project.id }}/">{{ project.title }}</a></li>#}
 
 
 
     <div class="ui link cards">
         {% for project in projects %}
+        <a href="/projects/{{ project.id }}/">
         <div class="card">
 {#            <div class="image">#}
 {#                <img src="/images/avatar2/large/matthew.png">#}
@@ -22,7 +23,7 @@
                    {{ project.descr }}
                 </div>
             </div>
-            <div class="extra content">
+{#            <div class="extra content">#}
 {#      <span class="right floated">#}
 {#        Joined in 2013#}
 {#      </span>#}
@@ -30,8 +31,9 @@
 {#        <i class="user icon"></i>#}
 {#        75 Friends#}
 {#      </span>#}
-            </div>
+{#            </div>#}
         </div>
+        </a>
     {% endfor %}
     </div>
 
