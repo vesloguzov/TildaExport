@@ -1,14 +1,21 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-    <a href="/projects/" class="item">К списку проектов</a>   <a href="update_project/" class="item">Обновить проект</a>
+
+    <div class="ui huge breadcrumb">
+        <a href="/projects/" class="section">Проекты</a>
+        <i class="right chevron icon divider"></i>
+        <div class="active section">{{ project.title }}</div>
+    </div>
+
+    <a href="update_project/" class="item">Обновить проект</a>
 
     <p>Название: {{ project.title }}</p>
     <p>Идентификатор: {{ project.id }}</p>
     <p>Описание: {{ project.descr }}</p>
     <p>Домен: {{ project.customdomain }}</p>
     <p>Картинка: {{ project.favicon }}</p>
-{#    <p>static_files: {{ project.static_files }}</p>#}
+    {#    <p>static_files: {{ project.static_files }}</p>#}
 
     {% if pages %}
         <p>Страницы проектов:</p>
