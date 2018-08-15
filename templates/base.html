@@ -100,15 +100,23 @@
 </head>
 <body>
 
-<div class="ui container">
-<div class="ui top fixed menu">
-  <div class="item">
-{#    <img src="/images/logo.png">#}
-  </div>
-{#  <a class="item">Features</a>#}
-{#  <a class="item">Testimonials</a>#}
-  <a class="item right">Войти</a>
+
+<div class="ui borderless main menu">
+    <div class="ui container">
+
+{#        <div class="header item">#}
+{#            <img class="logo" src="https://openedu.urfu.ru/files/images/header/logo5.png">#}
+{#            Менеджер курсов РОО#}
+{#        </div>#}
+{#        <a href="/roo/courses/" class="item">Список курсов</a>#}
+{#        <a href="/roo/expertises/" class="item">Список экспертиз</a>#}
+{#        <a href="/roo/data/" class="item">Обновления данных</a>#}
+
+    </div>
 </div>
+
+<div class="ui container">
+
     {% block content %}
     {% endblock %}
 </div>
