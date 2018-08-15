@@ -2,6 +2,7 @@
 from django.db import models
 import requests
 from django.conf import settings
+from datetime import datetime
 import json
 import shutil
 import os
@@ -58,6 +59,7 @@ class TildaRequest(models.Model):
                 project.export_jspath = response["result"]["export_jspath"]
                 project.export_imgpath = response["result"]["export_imgpath"]
                 project.indexpageid = response["result"]["indexpageid"]
+                project.last_updated = datetime.now()
                 project.save()
                 if "js" in response["result"].keys():
                     project.save_static_files('js', response["result"]["js"])
@@ -112,6 +114,7 @@ class TildaRequest(models.Model):
                 page_object.published = page["published"]
                 page_object.filename = page["filename"]
                 page_object.html = page["html"] if page["html"] is not None else ""
+                page_object.last_updated = datetime.now()
                 page_object.save()
                 if "images" in response["result"].keys():
                     page_object.save_page_images(response["result"]["images"])
@@ -133,7 +136,7 @@ class Project(models.Model):
     # js = models.ManyToManyField('StaticFile')
     # css = models.ManyToManyField('StaticFile')
     ProjectPages = models.ManyToManyField('Page', blank=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    last_updated = models.DateTimeField(blank=True)
 
     def save_static_files(self, files_type, files):
         for file in files:
@@ -165,7 +168,7 @@ class Page(models.Model):
     html = models.TextField("HTML", default="")
     page_path = models.CharField("Адрес страницы на сервере", max_length=255, null=True, blank=True)
     iframe = models.TextField("IFrame code", default="")
-    updated_at = models.DateTimeField(auto_now=True)
+    last_updated = models.DateTimeField(blank=True)
 
     def save_iframe_code(self):
         self.iframe = '<script>function resizeIframe(obj) {obj.style.height = obj.contentWindow.document.body.scrollHeight + "px";}</script>' + '<iframe src="{}" width="740" frameborder="0" scrolling="no" onload="resizeIframe(this)"></iframe>'.format("http://будетпозже.рф"+self.page_path)

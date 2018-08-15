@@ -15,9 +15,7 @@
     {% if project.descr %} <p>Описание: {{ project.descr }}</p> {% endif %}
     {% if project.customdomain %} <p>Домен: {{ project.customdomain }}</p> {% endif %}
     {% if project.favicon %} <p>Картинка: {{ project.favicon }}</p> {% endif %}
-
-
-    {% if project.updated_at %} <p>Обновлено: {{ page.updated_at }}</p> {% endif %}
+    {% if project.last_updated %} <p>Обновлено: {{ project.last_updated }}</p> {% endif %}
 
     {% if pages %}
         <p>Страницы проекта:</p>
