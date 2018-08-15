@@ -1,19 +1,22 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-    <h3 class="ui header">Проекты</h3>
-    <div class="ui link cards">
-        {% for project in projects %}
-            <a class="ui card" href="/projects/{{ project.id }}/">
-                <div class="content">
-                    <div class="header">{{ project.title }}</div>
-                    <div class="description">
-                        <p>{{ project.descr }}</p>
+    <div class="ui segment">
+
+        <h3 class="ui header">Проекты</h3>
+        <div class="ui divided items">
+            {% for project in projects %}
+                <div class="item">
+                    <div class="content">
+                        <a class="header" href="/projects/{{ project.id }}/">{{ project.title }}</a>
+                        <div class="description">
+                            <p>{{ project.descr }}</p>
+                        </div>
                     </div>
                 </div>
-            </a>
-        {% endfor %}
-    </div>
+            {% endfor %}
+        </div>
 
+    </div>
     <a href="/projects/update_projects/" class="item">Обновить проекты</a>
 {% endblock %}
