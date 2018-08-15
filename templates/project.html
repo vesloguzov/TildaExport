@@ -16,6 +16,9 @@
     {% if project.customdomain %} <p>Домен: {{ project.customdomain }}</p> {% endif %}
     {% if project.favicon %} <p>Картинка: {{ project.favicon }}</p> {% endif %}
 
+
+    {% if project.updated_at %} <p>Обновлено: {{ page.updated_at }}</p> {% endif %}
+
     {% if pages %}
         <p>Страницы проекта:</p>
         <div class="ui divided items">
