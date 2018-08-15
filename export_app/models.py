@@ -171,7 +171,7 @@ class Page(models.Model):
     last_updated = models.DateTimeField(null=True, blank=True)
 
     def save_iframe_code(self):
-        self.iframe = '<iframe src="{}" width="100%" frameborder="0" scrolling="no" onload="this.style.height = this.contentWindow.document.body.scrollHeight + \'px\'"'.format("http://будетпозже.рф"+self.page_path)
+        self.iframe = '<iframe src="{}" width="100%" frameborder="0" scrolling="no" onload="this.style.height = this.contentWindow.document.body.scrollHeight + \'px\'"></iframe>'.format("http://будетпозже.рф"+self.page_path)
         pass
 
     def save_html_file(self):
