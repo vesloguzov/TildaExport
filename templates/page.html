@@ -24,7 +24,14 @@
     {% if page.sort %} <p>Номер очередности в списке страниц: {{ page.sort }}</p> {% endif %}
     {% if page.published %} <p>Адрес страницы: {{ page.published }}</p> {% endif %}
     {% if page.filename %} <p>Имя файла: {{ page.filename }}</p> {% endif %}
-    {% if page.iframe %} <p>IFrame: {{ page.iframe }}</p> {% endif %}
+    {% if page.iframe %}
+        <p>IFrame: </p>
+        <div class="ui form">
+            <textarea rows="2">{{ page.iframe }}</textarea>
+            <a class="ui basic label" style="margin-top: 2px;">
+                <i class="copy icon"></i>Копировать в буфер</a>
+        </div>
+    {% endif %}
 
     {% if page.last_updated %} <p>Обновлено: {{ page.last_updated }}</p> {% endif %}
 
