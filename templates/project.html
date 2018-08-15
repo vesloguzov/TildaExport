@@ -9,13 +9,32 @@
     </div>
 
     <p><a href="update_project/" class="item">Обновить проект</a></p>
-    <p>Название: {{ project.title }}</p>
-    <p>Идентификатор: {{ project.id }}</p>
 
-    {% if project.descr %} <p>Описание: {{ project.descr }}</p> {% endif %}
+
+    <div class="content">
+    <i class="right floated sync alternate icon"></i>
+    <div class="header">{{ project.title }}</div>
+         {% if project.last_updated %} <div class="meta">Обновлено: {{ project.last_updated }}</div> {% endif %}
+
+    <div class="description">
+        <p>Идентификатор проекта: <strong>{{ project.id }}</strong></p>
     {% if project.customdomain %} <p>Домен: {{ project.customdomain }}</p> {% endif %}
-    {% if project.favicon %} <p>Картинка: {{ project.favicon }}</p> {% endif %}
-    {% if project.last_updated %} <p>Обновлено: {{ project.last_updated }}</p> {% endif %}
+        {% if project.descr %} <p>Описание: {{ project.descr }}</p> {% endif %}
+    </div>
+  </div>
+  <div class="extra content">
+    <i class="check icon"></i>
+    121 Votes
+  </div>
+
+
+{#    <p>Название: {{ project.title }}</p>#}
+{#    <p>Идентификатор: {{ project.id }}</p>#}
+
+
+
+{#    {% if project.favicon %} <p>Картинка: {{ project.favicon }}</p> {% endif %}#}
+
 
     {% if pages %}
         <p>Страницы проекта ({{ pages|length }}):</p>
