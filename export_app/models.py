@@ -133,6 +133,7 @@ class Project(models.Model):
     # js = models.ManyToManyField('StaticFile')
     # css = models.ManyToManyField('StaticFile')
     ProjectPages = models.ManyToManyField('Page', blank=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def save_static_files(self, files_type, files):
         for file in files:
@@ -164,6 +165,7 @@ class Page(models.Model):
     html = models.TextField("HTML", default="")
     page_path = models.CharField("Адрес страницы на сервере", max_length=255, null=True, blank=True)
     iframe = models.TextField("IFrame code", default="")
+    updated_at = models.DateTimeField(auto_now=True)
 
     def save_iframe_code(self):
         self.iframe = '<script>function resizeIframe(obj) {obj.style.height = obj.contentWindow.document.body.scrollHeight + "px";}</script>' + '<iframe src="{}" width="740" frameborder="0" scrolling="no" onload="resizeIframe(this)"></iframe>'.format("http://будетпозже.рф"+self.page_path)

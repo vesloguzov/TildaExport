@@ -4,7 +4,6 @@
     <h3 class="ui header">Проекты</h3>
     <div class="ui link cards">
         {% for project in projects %}
-
             <a class="ui card" href="/projects/{{ project.id }}/">
                 <div class="content">
                     <div class="header">{{ project.title }}</div>
@@ -12,12 +11,9 @@
                         <p>{{ project.descr }}</p>
                     </div>
                 </div>
-
             </a>
-
         {% endfor %}
     </div>
-
 
     <a href="/projects/update_projects/" class="item">Обновить проекты</a>
 {% endblock %}

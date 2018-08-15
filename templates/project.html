@@ -11,33 +11,27 @@
     <p><a href="update_project/" class="item">Обновить проект</a></p>
     <p>Название: {{ project.title }}</p>
     <p>Идентификатор: {{ project.id }}</p>
-    <p>Описание: {{ project.descr }}</p>
-    <p>Домен: {{ project.customdomain }}</p>
-    <p>Картинка: {{ project.favicon }}</p>
-    {#    <p>static_files: {{ project.static_files }}</p>#}
+
+    {% if project.descr %} <p>Описание: {{ project.descr }}</p> {% endif %}
+    {% if project.customdomain %} <p>Домен: {{ project.customdomain }}</p> {% endif %}
+    {% if project.favicon %} <p>Картинка: {{ project.favicon }}</p> {% endif %}
 
     {% if pages %}
         <p>Страницы проекта:</p>
         <div class="ui divided items">
-        {% for page in pages %}
-{#            <li><a href="/projects/{{ project.id }}/page/{{ page.id }}/">{{ page.title }}</a></li>#}
-
-          <div class="item">
-    <div class="content">
-      <a href="/projects/{{ project.id }}/page/{{ page.id }}/" class="header">{{ page.title }}</a>
-      <div class="description">
-        <p>{{ page.descr }}</p>
-      </div>
-    </div>
-  </div>
-
-        {% endfor %}
-
-</div>
-
-
-
+            {% for page in pages %}
+                <div class="item">
+                    <div class="content">
+                        <a href="/projects/{{ project.id }}/page/{{ page.id }}/" class="header">{{ page.title }}</a>
+                        <div class="description">
+                            <p>{{ page.descr }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
     {% else %}
         <p>Проект не имеет страниц.</p>
     {% endif %}
+
 {% endblock %}
