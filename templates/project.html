@@ -18,7 +18,7 @@
     {% if project.last_updated %} <p>Обновлено: {{ project.last_updated }}</p> {% endif %}
 
     {% if pages %}
-        <p>Страницы проекта:</p>
+        <p>Страницы проекта ({{ pages|length }}):</p>
         <div class="ui divided items">
             {% for page in pages %}
                 <div class="item">
