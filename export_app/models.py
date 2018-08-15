@@ -163,6 +163,11 @@ class Page(models.Model):
     # js = models.ManyToManyField('StaticFile')
     html = models.TextField("HTML", default="")
     page_path = models.CharField("Адрес страницы на сервере", max_length=255, null=True, blank=True)
+    iframe = models.TextField("IFrame code", default="")
+
+    def save_iframe_code(self):
+
+        pass
 
     def save_html_file(self):
         path = os.path.join(settings.MEDIA_ROOT, 'projects', self.projectid)
