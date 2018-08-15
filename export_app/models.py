@@ -166,7 +166,7 @@ class Page(models.Model):
     iframe = models.TextField("IFrame code", default="")
 
     def save_iframe_code(self):
-        self.iframe = '<iframe src="{}" width="740" frameborder="0" scrolling="no" onload="resizeIframe(this)"></iframe>'.format("http://будетпозже.рф"+self.page_path) + '<script>function resizeIframe(obj) {obj.style.height = obj.contentWindow.document.body.scrollHeight + "px";}</script>'
+        self.iframe = '<script>function resizeIframe(obj) {obj.style.height = obj.contentWindow.document.body.scrollHeight + "px";}</script>' + '<iframe src="{}" width="740" frameborder="0" scrolling="no" onload="resizeIframe(this)"></iframe>'.format("http://будетпозже.рф"+self.page_path)
         pass
 
     def save_html_file(self):
