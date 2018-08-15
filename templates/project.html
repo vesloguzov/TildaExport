@@ -10,7 +10,7 @@
 
     <p><a href="update_project/" class="item">Обновить проект</a></p>
 
-
+<div class="ui segment">
     <div class="content">
     <i class="right floated sync alternate icon"></i>
     <div class="header">{{ project.title }}</div>
@@ -21,10 +21,6 @@
     {% if project.customdomain %} <p>Домен: {{ project.customdomain }}</p> {% endif %}
         {% if project.descr %} <p>Описание: {{ project.descr }}</p> {% endif %}
     </div>
-  </div>
-  <div class="extra content">
-    <i class="check icon"></i>
-    121 Votes
   </div>
 
 
@@ -53,5 +49,7 @@
     {% else %}
         <p>Проект не имеет страниц.</p>
     {% endif %}
+
+</div>
 
 {% endblock %}
