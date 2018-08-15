@@ -26,7 +26,7 @@
     {% if page.sort %} <p>Номер очередности в списке страниц: {{ page.sort }}</p> {% endif %}
     {% if page.published %} <p>Адрес страницы: {{ page.published }}</p> {% endif %}
     {% if page.filename %} <p>Имя файла: {{ page.filename }}</p> {% endif %}
-
+    {% if page.iframe %} <p>IFrame: {{ page.iframe }}</p> {% endif %}
 
     {% if page.page_path %}
         <p>Страница на нашем сервере: <a href="{{ page.page_path }}" target="_blank">{{ page.title }}</a></p>
@@ -35,6 +35,6 @@
             станицу"</p>
     {% endif %}
 
-    <div>{{ page.html }}</div>
+{#    <div>{{ page.html }}</div>#}
 
 {% endblock %}
