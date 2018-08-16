@@ -29,7 +29,7 @@ SITE_ID = 1
 USE_SSL = False
 
 
-ALLOWED_HOSTS = ["185.93.110.162", "xn--90agdaef2ch0ah.xn--p1ai"]
+ALLOWED_HOSTS = ["185.93.110.162", "xn--90agdaef2ch0ah.xn--p1ai", "127.0.0.1"]
 
 
 # Application definition
@@ -73,6 +73,10 @@ TEMPLATES = [
     },
 ]
 
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+]
 WSGI_APPLICATION = 'tildaexport.wsgi.application'
 
 

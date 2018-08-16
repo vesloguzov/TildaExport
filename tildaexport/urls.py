@@ -7,7 +7,7 @@ from export_app import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('projects/', include('export_app.urls')),
+    path('', include('export_app.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
