@@ -8,11 +8,11 @@
         <div class="active section">{{ project.title }}</div>
     </div>
 
-{#    <p><a href="update_project/" class="item">Обновить проект</a></p>#}
+    <p><a href="update_project/" class="item">Обновить проект</a></p>
 
 <div class="ui segment">
     <div class="content">
-    <i class="right floated sync alternate icon"></i>
+{#    <i class="right floated sync alternate icon"></i>#}
     <div class="header">{{ project.title }}</div>
          {% if project.last_updated %} <div class="meta">Обновлено: {{ project.last_updated }}</div> {% endif %}
 
