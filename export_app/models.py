@@ -173,7 +173,7 @@ class Page(models.Model):
 
     def save_iframe_code(self):
         site = Site.objects.get_current()
-        self.iframe = '<iframe src="{}" width="100%" frameborder="0" scrolling="no" onload="this.style.height = this.contentWindow.document.body.scrollHeight + \'px\'"></iframe>'.format(site.domain_name + self.page_path)
+        self.iframe = '<iframe src="{}" width="100%" frameborder="0" scrolling="no" onload="this.style.height = this.contentWindow.document.body.scrollHeight + \'px\'"></iframe>'.format(site.domain + self.page_path)
         pass
 
     def save_html_file(self):
