@@ -26,6 +26,7 @@ SECRET_KEY = 'zg$j*+d#4z8mt1b!9rfb6*u*h59%)t9)%myfahn*h@msf-uqbi'
 DEBUG = True
 
 SITE_ID = 1
+USE_SSL = False
 
 
 ALLOWED_HOSTS = ["185.93.110.162", "xn--90agdaef2ch0ah.xn--p1ai"]

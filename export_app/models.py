@@ -6,6 +6,7 @@ from datetime import datetime
 import json
 import shutil
 import os
+from django.conf import settings
 from django.contrib.sites.models import Site
 
 
@@ -16,6 +17,13 @@ def is_binary(obj):
     except TypeError:
         return False
 
+def get_site_addr():
+    site = Site.objects.get_current()
+    if settings.USE_SSL:
+        site = "https://{}".format(site.domain)
+    else:
+        site = "http://{}".format(site.domain)
+    return site
 
 class TildaRequest(models.Model):
     name = models.CharField("Имя", max_length=255, null=True, blank=True)
@@ -172,8 +180,7 @@ class Page(models.Model):
     last_updated = models.DateTimeField(null=True, blank=True)
 
     def save_iframe_code(self):
-        site = Site.objects.get_current()
-        self.iframe = '<iframe src="{}" width="100%" frameborder="0" scrolling="no" onload="this.style.height = this.contentWindow.document.body.scrollHeight + \'px\'"></iframe>'.format(site.domain + self.page_path)
+        self.iframe = '<iframe src="{}" width="100%" frameborder="0" scrolling="no" onload="this.style.height = this.contentWindow.document.body.scrollHeight + \'px\'"></iframe>'.format(get_site_addr() + self.page_path)
         pass
 
     def save_html_file(self):
