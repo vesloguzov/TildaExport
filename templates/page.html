@@ -28,7 +28,7 @@
         <p>IFrame: </p>
         <div class="ui form">
             <textarea rows="2" class="js-link">{{ page.iframe }}</textarea>
-            <button class="copy icon js-copybtn"> Копировать в буфер</button>
+{#            <button class="copy icon js-copybtn"> Копировать в буфер</button>#}
         </div>
     {% endif %}
 
@@ -41,28 +41,5 @@
             станицу"</p>
     {% endif %}
 
-        <script>
-    var copyEmailBtn = document.querySelector('.js-copybtn');
-copyEmailBtn.addEventListener('click', function(event) {
-  // Выборка ссылки с электронной почтой
-  var emailLink = document.querySelector('.js-link');
-  var range = document.createRange();
-  range.selectNode(emailLink);
-  window.getSelection().addRange(range);
-
-  try {
-    // Теперь, когда мы выбрали текст ссылки, выполним команду копирования
-    var successful = document.execCommand('copy');
-    var msg = successful ? 'successful' : 'unsuccessful';
-    console.log('Copy email command was ' + msg);
-  } catch(err) {
-    console.log('Oops, unable to copy');
-  }
-
-  // Снятие выделения - ВНИМАНИЕ: вы должны использовать
-  // removeRange(range) когда это возможно
-  window.getSelection().removeAllRanges();
-});
-    </script>
 
 {% endblock %}
