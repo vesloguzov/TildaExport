@@ -28,8 +28,7 @@
         <p>IFrame: </p>
         <div class="ui form">
             <textarea rows="2" class="js-link">{{ page.iframe }}</textarea>
-            <a class="ui basic label" style="margin-top: 2px;">
-                <i class="copy icon js-copybtn"></i>Копировать в буфер</a>
+            <button class="copy icon js-copybtn"> Копировать в буфер</button>
         </div>
     {% endif %}
 
@@ -46,7 +45,7 @@
     var copyEmailBtn = document.querySelector('.js-copybtn');
 copyEmailBtn.addEventListener('click', function(event) {
   // Выборка ссылки с электронной почтой
-  var emailLink = document.querySelector('.js-link');
+  var emailLink = document.querySelector('.js-link').innerHTML;
   var range = document.createRange();
   range.selectNode(emailLink);
   window.getSelection().addRange(range);
