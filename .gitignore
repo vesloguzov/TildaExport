@@ -2,5 +2,5 @@
 *.pyc
 media
 staticfiles
-*.sqlite
+*.sqlite3
 venv
