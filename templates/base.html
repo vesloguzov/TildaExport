@@ -104,13 +104,21 @@
 <div class="ui borderless main menu">
     <div class="ui container">
 
-{#        <div class="header item">#}
-{#            <img class="logo" src="https://openedu.urfu.ru/files/images/header/logo5.png">#}
-{#            Менеджер курсов РОО#}
-{#        </div>#}
-{#        <a href="/roo/courses/" class="item">Список курсов</a>#}
-{#        <a href="/roo/expertises/" class="item">Список экспертиз</a>#}
-{#        <a href="/roo/data/" class="item">Обновления данных</a>#}
+        <div class="header item">
+            <img class="logo" src="https://www.lektorium.tv/tilda_img/tild3132-6566-4437-b735-353734346438___.svg">
+            Менеджер страниц Tilda
+        </div>
+        <div class="right menu">
+            {% if user.is_authenticated %}
+                <a class="ui item" href="/accounts/logout">
+                    Выйти
+                </a>
+            {% else %}
+                <a class="ui item" href="/accounts/login">
+                    Войти
+                </a>
+            {% endif %}
+        </div>
 
     </div>
 </div>
