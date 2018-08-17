@@ -45,7 +45,7 @@
     var copyEmailBtn = document.querySelector('.js-copybtn');
 copyEmailBtn.addEventListener('click', function(event) {
   // Выборка ссылки с электронной почтой
-  var emailLink = document.querySelector('.js-link').innerHTML;
+  var emailLink = document.querySelector('.js-link');
   var range = document.createRange();
   range.selectNode(emailLink);
   window.getSelection().addRange(range);
