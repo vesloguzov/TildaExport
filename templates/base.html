@@ -106,7 +106,7 @@
 
         <div class="header item">
             <img class="logo" src="https://www.lektorium.tv/tilda_img/tild3132-6566-4437-b735-353734346438___.svg">
-            Менеджер страниц Tilda
+           {% if is_project %} Менеджер страниц Tilda {% endif %}
         </div>
         <div class="right menu">
             {% if user.is_authenticated %}
