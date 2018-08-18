@@ -51,7 +51,6 @@ def project(request, project_id):
     context = dict()
     context["project"] = project
     context["pages"] = []
-    context["is_project"] = True
     for page in project.ProjectPages.all():
         context["pages"].append(page)
     return render(request, "project.html", context)
