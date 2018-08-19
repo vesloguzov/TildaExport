@@ -28,8 +28,8 @@ def get_site_addr():
 class TildaRequest(models.Model):
     name = models.CharField("Имя", max_length=255, null=True, blank=True)
     request_count = models.IntegerField("Количество запросов за час", default=0)
-    publickey = "ptjpckc4gc0feyrbgj0w"
-    secretkey = "787nil2glnhbg00skcx1"
+    publickey = "5iusv518bgyj2ox69cpi"
+    secretkey = "wyf7n1weosiuacn6hoft"
     base_url = "http://api.tildacdn.info/v1/"
     requests_limit = 120
 

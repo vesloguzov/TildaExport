@@ -1,48 +1,67 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
+    <div class="project">
+        <div class="ui vertical segment">
+            <div class="ui text container">
+                <div class="ui large breadcrumb">
+                    <a href="/projects/" class="section">Проекты</a>
+                    <i class="right chevron icon divider"></i>
+                    <div class="active section">{{ project.title }}</div>
+                </div>
+            </div>
+            <div class="ui text container">
+                <h1 class="ui header">
+                <div class="content">
+                    {{ project.title }}
+                    <a class="ui green label">ID project: {{ project.id }}</a>
+                    {% if project.descr %}
+                        <div class="sub header">Описание: {{ project.descr }}</div>
+                    {% endif %}
+                </div>
+                </h1>
+                <div class="ui grid">
+                    <div class="twelve wide column">
+                        {% if project.customdomain %}
+                            <div class="meta">Домен: <strong>{{ project.customdomain }}</strong></div>
+                        {% endif %}
+                        {% if project.descr %}
+                            <div class="meta">Описание: <strong>{{ project.descr }}</strong></div>
+                        {% endif %}
+                         {% if pages %}
+                             <div class="meta">Количество страниц в проекте: <strong>{{ pages|length }} шт.</strong></div>
+                        {% endif %}
+                        {% if project.favicon %}
+                            <p>Картинка: {{ project.favicon }}</p>
+                        {% endif %}
+                    </div>
+                    <div class="center aligned four wide column">
+                        <a href="update_project/" class="ui orange button"> <i class="sync alternate icon"></i>Обновить проект</a>
+                        {% if project.last_updated %}
+                            <p class="last_update">Последнее обновлено:<br /><strong>{{ project.last_updated }}</strong></p>
+                        {% endif %}
+                    </div>
+                </div>
 
-    <div class="ui huge breadcrumb">
-        <a href="/projects/" class="section">Проекты</a>
-        <i class="right chevron icon divider"></i>
-        <div class="active section">{{ project.title }}</div>
-    </div>
-
-    <p><a href="update_project/" class="item">Обновить проект</a></p>
-
-<div class="ui segment">
-    <div class="content">
-{#    <i class="right floated sync alternate icon"></i>#}
-    <div class="header">{{ project.title }}</div>
-         {% if project.last_updated %} <div class="meta">Обновлено: {{ project.last_updated }}</div> {% endif %}
-
-    <div class="description">
-        <p>Идентификатор проекта: <strong>{{ project.id }}</strong></p>
-    {% if project.customdomain %} <p>Домен: {{ project.customdomain }}</p> {% endif %}
-        {% if project.descr %} <p>Описание: {{ project.descr }}</p> {% endif %}
-    </div>
-  </div>
-
-
-{#    <p>Название: {{ project.title }}</p>#}
-{#    <p>Идентификатор: {{ project.id }}</p>#}
 
 
 
-{#    {% if project.favicon %} <p>Картинка: {{ project.favicon }}</p> {% endif %}#}
+            </div>
+        </div>
+        <div class="ui text container">
 
 
     {% if pages %}
-        <p>Страницы проекта ({{ pages|length }}):</p>
         <div class="ui divided items">
             {% for page in pages %}
                 <div class="item">
-                    <div class="content">
-                        <a href="/projects/{{ project.id }}/page/{{ page.id }}/" class="header">{{ page.title }}</a>
-                        <div class="description">
-                            <p>{{ page.descr }}</p>
+                    <h2 class="ui header">
+
+                        <div class="content">
+                            <a class="header" href="/projects/{{ project.id }}/page/{{ page.id }}/"><i class="file alternate icon"></i>{{ page.title }}</a>
+                            <div class="sub header">{{ page.descr }}</div>
                         </div>
-                    </div>
+                    </h2>
                 </div>
             {% endfor %}
         </div>
@@ -51,5 +70,5 @@
     {% endif %}
 
 </div>
-
+</div>
 {% endblock %}
