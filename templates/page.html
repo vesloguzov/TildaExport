@@ -1,45 +1,81 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
+    <div class="page">
+        <div class="ui vertical segment">
+            <div class="ui text container">
+                <div class="ui large breadcrumb">
+                    <a href="/projects/" class="section">Проекты</a>
+                    <i class="right chevron icon divider"></i>
+                    <a href="/projects/{{ page.projectid }}/" class="section">{{ project.title }}</a>
+                    <i class="right chevron icon divider"></i>
+                    <div class="active section">{{ page.title }}</div>
+                </div>
+            </div>
+            <div class="ui text container">
+                <h1 class="ui header">
+                <div class="content">
+                    {{ page.title }}
+                    {% if page.descr %}
+                        <div class="sub header">Описание: {{ page.descr }}</div>
+                    {% endif %}
+                                        <a class="ui purple label">ID page: {{ page.id }}</a><a class="ui green label">ID project: {{ page.projectid }}</a>
 
-    <div class="ui big breadcrumb">
-        <a href="/projects/" class="section">Проекты</a>
-        <i class="right chevron icon divider"></i>
-        <a href="/projects/{{ page.projectid }}/" class="section">{{ project.title }}</a>
-        <i class="right chevron icon divider"></i>
-        <div class="active section">{{ page.title }}</div>
-    </div>
 
-    <p><a href="update_page/" class="item">Обновить страничку</a></p>
+                </div>
+                </h1>
+                <div class="ui grid">
+                    <div class="twelve wide column">
+                        {% if page.date %}
+                            <div>Дата создания: <strong>{{ page.date }}</strong></div>
+                        {% endif %}
+                        {% if page.filename %}
+                            <div>Имя файла: <strong>{{ page.filename }}</strong></div>
+                        {% endif %}
+                        {% if page.published %}
+                            <div>Адрес страницы: <strong>{{ page.published }}</strong></div>
+                        {% endif %}
+                        {% if page.sort %}
+                            <div>Номер очередности в списке страниц: <strong>{{ page.sort }}</strong></div>
+                        {% endif %}
+                        {% if page.featureimg %}
+                            <div>featureimg: <strong>{{ page.featureimg }}</strong></div>
+                        {% endif %}
+{#                        {% if page.alias %}#}
+{#                            <div>alias: <strong>{{ page.alias }}</strong></div>#}
+{#                        {% endif %}#}
 
-    <p>Название: {{ page.title }}</p>
-    <p>Идентификатор: {{ page.id }}</p>
-    <p>ИД проекта: {{ page.projectid }}</p>
-
-    {% if page.descr %} <p>Описание: {{ page.descr }}</p> {% endif %}
-    {% if page.img %} <p>Картинка: {{ page.img }}</p> {% endif %}
-    {% if page.featureimg %} <p>featureimg: {{ page.featureimg }}</p> {% endif %}
-    {% if page.alias %} <p>alias: {{ page.alias }}</p> {% endif %}
-    {% if page.date %} <p>Дата создания: {{ page.date }}</p> {% endif %}
-    {% if page.sort %} <p>Номер очередности в списке страниц: {{ page.sort }}</p> {% endif %}
-    {% if page.published %} <p>Адрес страницы: {{ page.published }}</p> {% endif %}
-    {% if page.filename %} <p>Имя файла: {{ page.filename }}</p> {% endif %}
-    {% if page.iframe %}
-        <p>IFrame: </p>
-        <div class="ui form">
-            <textarea rows="2" class="js-link">{{ page.iframe }}</textarea>
-{#            <button class="copy icon js-copybtn"> Копировать в буфер</button>#}
+{#    {% if page.img %} <p>Картинка: {{ page.img }}</p> {% endif %}#}
+                    </div>
+                    <div class="center aligned four wide column">
+                        <a href="update_page/" class="ui orange button"> <i class="sync alternate icon"></i>Обновить страницу</a>
+                        {% if page.last_updated %}
+                            <p class="last_update">Последнее обновлено:<br /><strong>{{ page.last_updated }}</strong></p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
         </div>
-    {% endif %}
-
-    {% if page.last_updated %} <p>Обновлено: {{ page.last_updated }}</p> {% endif %}
-
-    {% if page.page_path %}
-        <p>Страница на нашем сервере: <a href="{{ page.page_path }}" target="_blank">{{ page.title }}</a></p>
-    {% else %}
-        <p>На нашем сервере еще нет данной страницы. Чтобы она там появилась неоходимо нажать кнопку "Обновить
-            станицу"</p>
-    {% endif %}
-
-
+        <div class="ui text container">
+            <div class="ui segment">
+                {% if page.page_path %}
+                    {% if page.iframe %}
+                        <div class="ui grid">
+                            <div class="fifteen wide column">
+                            <code>{{ page.iframe }}</code>
+                            </div>
+                            <div class="center aligned one wide column">
+                                <a class="code_action"><i class="copy icon"></i></a>
+                                <a class="code_action" href="{{ page.page_path }}" target="_blank"><i class="window restore outline icon"></i></a>
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% else %}
+                    <p>На нашем сервере еще нет данной страницы. Чтобы она там появилась неоходимо нажать кнопку "Обновить
+                        станицу"</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{#     <p>Страница на нашем сервере: <a href="{{ page.page_path }}" target="_blank">{{ page.title }}</a></p>#}
 {% endblock %}

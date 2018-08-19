@@ -1,22 +1,39 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-    <div class="ui segment">
-
-        <h3 class="ui header">Проекты</h3>
-        <div class="ui divided items">
-            {% for project in projects %}
-                <div class="item">
-                    <div class="content">
-                        <a class="header" href="/projects/{{ project.id }}/">{{ project.title }}</a>
-                        <div class="description">
-                            <p>{{ project.descr }}</p>
-                        </div>
+    <div class="projects">
+        <div class="ui vertical segment">
+            <div class="ui text container">
+                 <h1>Проекты</h1>
+                <div class="ui grid">
+                    <div class="twelve wide column">
+                        <p>Описание проектов</p>
+                    </div>
+                    <div class="four wide column">
+                        <a href="/projects/update_projects/" class="ui orange button right"> <i class="sync alternate icon"></i>Обновить проекты</a>
                     </div>
                 </div>
-            {% endfor %}
+            </div>
         </div>
+        <div class="ui text container">
 
+
+
+            <div class="ui divided items">
+                {% for project in projects %}
+                    <div class="item">
+                    <a href="/projects/{{ project.id }}/">
+                    <h2 class="ui header">
+                        <i class="book icon"></i>
+                        <div class="content">
+                            <div class="header">{{ project.title }}</div>
+                            <div class="sub header">{{ project.descr }}</div>
+                        </div>
+                    </h2>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
     </div>
-    <a href="/projects/update_projects/" class="item">Обновить проекты</a>
 {% endblock %}
