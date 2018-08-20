@@ -12,7 +12,7 @@ USE_SSL = True
 ALLOWED_HOSTS = ["185.93.110.162", "xn--90agdaef2ch0ah.xn--p1ai", "127.0.0.1", "localhost"]
 
 CORS_ORIGIN_WHITELIST = (
-    'mooc.lektorium.tv',
+    '*.lektorium.tv',
     'localhost:8000',
 )
 
