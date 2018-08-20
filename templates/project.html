@@ -12,13 +12,13 @@
             </div>
             <div class="ui text container">
                 <h1 class="ui header">
-                <div class="content">
-                    {{ project.title }}
-                    <a class="ui green label">ID project: {{ project.id }}</a>
-                    {% if project.descr %}
-                        <div class="sub header">Описание: {{ project.descr }}</div>
-                    {% endif %}
-                </div>
+                    <div class="content">
+                        {{ project.title }}
+                        <a class="ui green label">ID project: {{ project.id }}</a>
+                        {% if project.descr %}
+                            <div class="sub header">Описание: {{ project.descr }}</div>
+                        {% endif %}
+                    </div>
                 </h1>
                 <div class="ui grid">
                     <div class="twelve wide column">
@@ -28,8 +28,8 @@
                         {% if project.descr %}
                             <div class="meta">Описание: <strong>{{ project.descr }}</strong></div>
                         {% endif %}
-                         {% if pages %}
-                             <div class="meta">Количество страниц в проекте: <strong>{{ pages|length }} шт.</strong></div>
+                        {% if pages %}
+                            <div class="meta">Количество страниц в проекте: <strong>{{ pages|length }} шт.</strong></div>
                         {% endif %}
                         {% if project.favicon %}
                             <p>Картинка: {{ project.favicon }}</p>
@@ -38,12 +38,10 @@
                     <div class="center aligned four wide column">
                         <a href="update_project/" class="ui orange button"> <i class="sync alternate icon"></i>Обновить проект</a>
                         {% if project.last_updated %}
-                            <p class="last_update">Последнее обновлено:<br /><strong>{{ project.last_updated }}</strong></p>
+                            <p class="last_update">Последнее обновлено:<br/><strong>{{ project.last_updated }} (МСК)</strong></p>
                         {% endif %}
                     </div>
                 </div>
-
-
 
 
             </div>
@@ -51,24 +49,30 @@
         <div class="ui text container">
 
 
-    {% if pages %}
-        <div class="ui divided items">
-            {% for page in pages %}
-                <div class="item">
-                    <h2 class="ui header">
+            {% if pages %}
+                <div class="ui divided items">
+                    {% for page in pages %}
+                        <div class="item">
+                            <h2 class="ui header">
 
-                        <div class="content">
-                            <a class="header" href="/projects/{{ project.id }}/page/{{ page.id }}/"><i class="file alternate icon"></i>{{ page.title }}</a>
-                            <div class="sub header">{{ page.descr }}</div>
+                                <div class="content">
+                                    <a class="header" href="/projects/{{ project.id }}/page/{{ page.id }}/"><i class="file alternate icon"></i>{{ page.title }}</a>
+                                    <div class="sub header">{{ page.descr }}</div>
+                                </div>
+                            </h2>
                         </div>
-                    </h2>
+                    {% endfor %}
                 </div>
-            {% endfor %}
-        </div>
-    {% else %}
-        <p>Проект не имеет страниц.</p>
-    {% endif %}
+            {% else %}
+                <div class="ui segment">
+                    {% if project.last_updated %}
+                        <p>Проект не имеет страниц <i class="frown outline large icon"></i></p>
+                    {% else %}
+                        <p>Чтобы загрузить страницы с сервера Tilda, нажмите на кнопку "Обновить&nbsp;проект"</p>
+                    {% endif %}
+                </div>
+            {% endif %}
 
-</div>
-</div>
+        </div>
+    </div>
 {% endblock %}

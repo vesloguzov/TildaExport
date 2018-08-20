@@ -14,16 +14,15 @@
             </div>
             <div class="ui text container">
                 <h1 class="ui header">
-                <div class="content">
-                    {{ page.title }}
-                    {% if page.descr %}
-                        <div class="sub header">Описание: {{ page.descr }}</div>
-                    {% endif %}
-                                        <a class="ui purple label">ID page: {{ page.id }}</a><a class="ui green label">ID project: {{ page.projectid }}</a>
-
-
-                </div>
+                    <div class="content">
+                        {{ page.title }}
+                        {% if page.descr %}
+                            <div class="sub header">Описание: {{ page.descr }}</div>
+                        {% endif %}
+                        <a class="ui purple label">ID page: {{ page.id }}</a><a class="ui green label">ID project: {{ page.projectid }}</a>
+                    </div>
                 </h1>
+
                 <div class="ui grid">
                     <div class="twelve wide column">
                         {% if page.date %}
@@ -41,16 +40,11 @@
                         {% if page.featureimg %}
                             <div>featureimg: <strong>{{ page.featureimg }}</strong></div>
                         {% endif %}
-{#                        {% if page.alias %}#}
-{#                            <div>alias: <strong>{{ page.alias }}</strong></div>#}
-{#                        {% endif %}#}
-
-{#    {% if page.img %} <p>Картинка: {{ page.img }}</p> {% endif %}#}
                     </div>
                     <div class="center aligned four wide column">
                         <a href="update_page/" class="ui orange button"> <i class="sync alternate icon"></i>Обновить страницу</a>
                         {% if page.last_updated %}
-                            <p class="last_update">Последнее обновлено:<br /><strong>{{ page.last_updated }}</strong></p>
+                            <p class="last_update">Последнее обновлено:<br/><strong>{{ page.last_updated }} (МСК)</strong></p>
                         {% endif %}
                     </div>
                 </div>
@@ -62,20 +56,57 @@
                     {% if page.iframe %}
                         <div class="ui grid">
                             <div class="fifteen wide column">
-                            <code>{{ page.iframe }}</code>
+                                <code id="iframeEmbedCode">{{ page.iframe }}</code>
                             </div>
                             <div class="center aligned one wide column">
-                                <a class="code_action"><i class="copy icon"></i></a>
+                                <a class="code_action" id="copyToClipboard"><i class="copy icon"></i></a>
                                 <a class="code_action" href="{{ page.page_path }}" target="_blank"><i class="window restore outline icon"></i></a>
                             </div>
                         </div>
                     {% endif %}
+                {% else %}
+                    {% if page.last_updated %}
+                        <p>Страница пуста <i class="frown outline large icon"></i></p>
                     {% else %}
-                    <p>На нашем сервере еще нет данной страницы. Чтобы она там появилась неоходимо нажать кнопку "Обновить
-                        станицу"</p>
+                        <p>Чтобы загрузить страницу с сервера Tilda, нажмите на кнопку "Обновить&nbsp;страницу"</p>
+                    {% endif %}
                 {% endif %}
             </div>
         </div>
     </div>
-{#     <p>Страница на нашем сервере: <a href="{{ page.page_path }}" target="_blank">{{ page.title }}</a></p>#}
+
+    <script>
+        if (document.querySelectorAll("#copyToClipboard").length !== 0) {
+            document.getElementById("copyToClipboard").addEventListener("click", function () {
+                copyToClipboard(document.getElementById("iframeEmbedCode"));
+            });
+        }
+
+        function copyToClipboard(elem) {
+            let target = document.createElement("textarea");
+            target.style.position = "absolute";
+            target.style.left = "-9999px";
+            target.style.top = "0";
+            target.id = "_hiddenCopyText_";
+            document.body.appendChild(target);
+
+            target.textContent = elem.textContent;
+
+            let currentFocus = document.activeElement;
+            target.focus();
+            target.setSelectionRange(0, target.value.length);
+
+            let succeed;
+            try {
+                succeed = document.execCommand("copy");
+            } catch (e) {
+                succeed = false;
+            }
+            if (currentFocus && typeof currentFocus.focus === "function") {
+                currentFocus.focus();
+            }
+            target.parentNode.removeChild(target)
+            return succeed;
+        }
+    </script>
 {% endblock %}

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    <div class="page">
+    <div class="ui vertical segment">
+        <div class="ui text container">
+            <div class="ui error message">
+                <div class="header">
+                    Количество запросов к Tilda API превышено. Попробуйте повторить попытку через некоторое время.
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
