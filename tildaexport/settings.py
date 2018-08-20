@@ -11,6 +11,11 @@ USE_SSL = True
 
 ALLOWED_HOSTS = ["185.93.110.162", "xn--90agdaef2ch0ah.xn--p1ai", "127.0.0.1", "localhost"]
 
+CORS_ORIGIN_WHITELIST = (
+    'mooc.lektorium.tv',
+    'localhost:8000',
+)
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -23,12 +28,14 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'corsheaders',
 
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
