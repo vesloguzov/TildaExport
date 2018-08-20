@@ -16,6 +16,8 @@ CORS_ORIGIN_WHITELIST = (
     'localhost:8000',
 )
 
+CORS_ORIGIN_ALLOW_ALL = True
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
