@@ -205,7 +205,7 @@ class Page(models.Model):
     last_updated = models.DateTimeField(null=True, blank=True)
 
     def save_iframe_code(self):
-        self.iframe = '<script type="text/javascript">$.getScript("https://cdn.jsdelivr.net/npm/iframe-resizer@3.6.1/src/iframeResizer.min.js")</script><iframe src="{}" id={} width="100%" frameborder="0" scrolling="no" onload="iFrameResize({log:true}, \'#{}\'")"></iframe>' \
+        self.iframe = '<script type="text/javascript">$.getScript("https://cdn.jsdelivr.net/npm/iframe-resizer@3.6.1/src/iframeResizer.min.js")</script><iframe src="{}" id={} width="100%" frameborder="0" scrolling="no" onload="iFrameResize({log:true}, \'#{}\')"></iframe>' \
             .format(get_site_addr() + self.page_path, self.filename.split('.')[0], self.filename.split('.')[0])
         pass
 
