@@ -207,11 +207,12 @@ class Page(models.Model):
     last_updated = models.DateTimeField(null=True, blank=True)
 
     def save_iframe_code(self):
-        print(self.filename.split('.')[0])
-        self.iframe = '<script type="text/javascript">$.getScript("https://cdn.jsdelivr.net/npm/iframe-resizer@3.6.1/js/iframeResizer.min.js");{}</script><iframe src="{}"  id="{}" width="100%" frameborder="0" scrolling="no"></iframe>' \
-            .format("function iframeLoaded() {{iFrameResize({{log:true}}, '#{}')}}".format(self.filename.split('.')[0]),
-                    get_site_addr() + self.page_path,
-                    self.filename.split('.')[0])
+        # print(self.filename.split('.')[0])
+
+        self.iframe = '<iframe src="{}"  id="{}" width="100%" onload="var tag = "script";var scriptTag = document.createElement(tag);var firstScriptTag = document.getElementsByTagName(tag)[0]; scriptTag.src = "https://cdn.jsdelivr.net/npm/iframe-resizer@3.6.1/js/iframeResizer.min.js";firstScriptTag.parentNode.insertBefore(scriptTag, firstScriptTag);{}" frameborder="0" scrolling="no"></iframe>' \
+            .format(get_site_addr() + self.page_path,
+                    self.filename.split('.')[0],
+                    "scriptTag.onload = function(){{iFrameResize({{log: true, checkOrigin: false, '#{}'}})}})".format(self.filename.split('.')[0]))
         pass
 
     def save_html_file(self):
