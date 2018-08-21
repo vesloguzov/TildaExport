@@ -209,10 +209,10 @@ class Page(models.Model):
     def save_iframe_code(self):
         # print(self.filename.split('.')[0])
 
-        self.iframe = '<iframe src="{}"  id="{}" width="100%" onload="var tag = "script";var scriptTag = document.createElement(tag);var firstScriptTag = document.getElementsByTagName(tag)[0]; scriptTag.src = "https://cdn.jsdelivr.net/npm/iframe-resizer@3.6.1/js/iframeResizer.min.js";firstScriptTag.parentNode.insertBefore(scriptTag, firstScriptTag);{}" frameborder="0" scrolling="no"></iframe>' \
+        self.iframe = '<iframe src="{}"  id="{}" width="100%" onload=\'var tag = "script";var scriptTag = document.createElement(tag);var firstScriptTag = document.getElementsByTagName(tag)[0]; scriptTag.src = "https://cdn.jsdelivr.net/npm/iframe-resizer@3.6.1/js/iframeResizer.min.js";firstScriptTag.parentNode.insertBefore(scriptTag, firstScriptTag);{}\' frameborder="0" scrolling="no"></iframe>' \
             .format(get_site_addr() + self.page_path,
                     self.filename.split('.')[0],
-                    "scriptTag.onload = function(){{iFrameResize({{log: true, checkOrigin: false, '#{}'}})}})".format(self.filename.split('.')[0]))
+                    'scriptTag.onload = function(){{iFrameResize({{log: true, checkOrigin: false}}, "#{}")}}'.format(self.filename.split('.')[0]))
         pass
 
     def save_html_file(self):
