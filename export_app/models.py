@@ -148,6 +148,7 @@ class TildaRequest(models.Model):
                     page_object.published = page["published"]
                     page_object.filename = page["filename"]
                     if page["html"] is not None:
+                        print(page["html"])
                         page_object.html = page["html"].replace('</head>', '</head><script type="text/javascript">$.getScript("https://cdn.jsdelivr.net/npm/iframe-resizer@3.5.16/js/iframeResizer.contentWindow.js")</script>', 1)
                     else:
                         page_object.html = ""
