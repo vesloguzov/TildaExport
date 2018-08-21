@@ -148,7 +148,7 @@ class TildaRequest(models.Model):
                     page_object.published = page["published"]
                     page_object.filename = page["filename"]
                     if page["html"] is not None:
-                        page_object.html = page["html"].replace('<script type="text/javascript"> ', '<script type="text/javascript">$.getScript("https://cdn.jsdelivr.net/npm/iframe-resizer@3.5.16/js/iframeResizer.contentWindow.js")</script><script type="text/javascript"> ', 1)
+                        page_object.html = page["html"].replace('</head>', '</head><script type="text/javascript">$.getScript("https://cdn.jsdelivr.net/npm/iframe-resizer@3.5.16/js/iframeResizer.contentWindow.js")</script>', 1)
                     else:
                         page_object.html = ""
                     page_object.last_updated = datetime.now()
