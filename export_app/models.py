@@ -150,7 +150,7 @@ class TildaRequest(models.Model):
                     if page["html"] is not None:
                         print(page["html"])
                         page_object.html = page["html"].replace('</head>',
-                                                                '</head><script type="text/javascript">window.onload = function() {parent.iframeLoaded();}; $.getScript("https://cdn.jsdelivr.net/npm/iframe-resizer@3.5.16/js/iframeResizer.contentWindow.js")</script>',
+                                                                '</head><script type="text/javascript">window.onload = function() {parent.iframeLoaded();};\n $.getScript("https://cdn.jsdelivr.net/npm/iframe-resizer@3.5.16/js/iframeResizer.contentWindow.js")</script>',
                                                                 1)
                     else:
                         page_object.html = ""
