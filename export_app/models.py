@@ -150,7 +150,7 @@ class TildaRequest(models.Model):
                     if page["html"] is not None:
                         print(page["html"])
                         page_object.html = page["html"].replace('</head>',
-                                                                '</head><script type="text/javascript">$.getScript("{}")</script>'.format(get_site_addr() + '/static/js/iframeResizer.contentWindow.js',),
+                                                                '</head><script type="text/javascript">$.getScript("{}")</script>'.format(get_site_addr() + '/static/js/iframeResizer.contentWindow.min.js',),
                                                                 1)
                     else:
                         page_object.html = ""
