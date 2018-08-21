@@ -150,7 +150,7 @@ class TildaRequest(models.Model):
                     if page["html"] is not None:
                         print(page["html"])
                         page_object.html = page["html"].replace('</head>',
-                                                                '</head><script type="text/javascript">window.onload = function() {parent.iframeLoaded();};\n $.getScript("https://cdn.jsdelivr.net/npm/iframe-resizer@3.5.16/js/iframeResizer.contentWindow.js")</script>',
+                                                                '</head><script type="text/javascript">$.getScript("https://cdn.jsdelivr.net/npm/iframe-resizer@3.5.16/js/iframeResizer.contentWindow.js")</script>',
                                                                 1)
                     else:
                         page_object.html = ""
@@ -208,7 +208,7 @@ class Page(models.Model):
 
     def save_iframe_code(self):
         print(self.filename.split('.')[0])
-        self.iframe = '<script type="text/javascript">$.getScript("https://cdn.jsdelivr.net/npm/iframe-resizer@3.6.1/src/iframeResizer.min.js");{}</script><iframe src="{}"  id="{}" width="100%" frameborder="0" scrolling="no"></iframe>' \
+        self.iframe = '<script type="text/javascript">$.getScript("https://cdn.jsdelivr.net/npm/iframe-resizer@3.6.1/js/iframeResizer.min.js");{}</script><iframe src="{}"  id="{}" width="100%" frameborder="0" scrolling="no"></iframe>' \
             .format("function iframeLoaded() {{iFrameResize({{log:true}}, '#{}')}}".format(self.filename.split('.')[0]),
                     get_site_addr() + self.page_path,
                     self.filename.split('.')[0])
