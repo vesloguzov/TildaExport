@@ -147,7 +147,10 @@ class TildaRequest(models.Model):
                     page_object.sort = page["sort"]
                     page_object.published = page["published"]
                     page_object.filename = page["filename"]
-                    page_object.html = page["html"] if page["html"] is not None else ""
+                    if page["html"] is not None:
+                        page_object.html = page["html"].replace('<script type="text/javascript"> ', '<script type="text/javascript">$.getScript("https://cdn.jsdelivr.net/npm/iframe-resizer@3.5.16/js/iframeResizer.contentWindow.js")</script><script type="text/javascript"> ', 1)
+                    else:
+                        page_object.html = ""
                     page_object.last_updated = datetime.now()
                     page_object.save()
                     if "images" in response["result"].keys():
@@ -201,7 +204,7 @@ class Page(models.Model):
     last_updated = models.DateTimeField(null=True, blank=True)
 
     def save_iframe_code(self):
-        self.iframe = '<iframe src="{}" width="100%" frameborder="0" scrolling="no" onload="this.style.height = this.contentWindow.document.body.scrollHeight + \'px\'"></iframe>' \
+        self.iframe = '<script type="text/javascript">$.getScript("https://cdn.jsdelivr.net/npm/iframe-resizer@3.6.1/src/iframeResizer.min.js")</script><iframe src="{}" width="100%" frameborder="0" scrolling="no" onload="this.style.height = this.contentWindow.document.body.scrollHeight + \'px\'"></iframe>' \
             .format(get_site_addr() + self.page_path)
         pass
 
