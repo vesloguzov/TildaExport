@@ -4,7 +4,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = 'lek#!vef)!az%&yvn390_z5$65(wc*op%0c24%fja!3pem6uk4$s@'
 
-DEBUG = False
+DEBUG = True
 
 SITE_ID = 1
 USE_SSL = True
