@@ -206,8 +206,8 @@ class Page(models.Model):
 
     def save_iframe_code(self):
         print(self.filename.split('.')[0])
-        self.iframe = '<script type="text/javascript">$.getScript("https://cdn.jsdelivr.net/npm/iframe-resizer@3.6.1/src/iframeResizer.min.js")</script><iframe src="{}" id="{}" width="100%" frameborder="0" scrolling="no"></iframe>' \
-            .format(get_site_addr() + self.page_path, self.filename.split('.')[0])
+        self.iframe = '<script type="text/javascript">$.getScript("https://cdn.jsdelivr.net/npm/iframe-resizer@3.6.1/src/iframeResizer.min.js")</script><iframe onload="iFrameResize({log:true}, "{}")" src="{}" id="{}" width="100%" frameborder="0" scrolling="no"></iframe>' \
+            .format(get_site_addr() + self.page_path, self.filename.split('.')[0], self.filename.split('.')[0])
         pass
 
     def save_html_file(self):
