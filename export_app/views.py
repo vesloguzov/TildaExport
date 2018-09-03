@@ -31,11 +31,14 @@ def projects_list(request):
 
 
 def update_projects(request):
-    tr = TildaRequest.objects.latest("id")
-    if tr.getprojectslist():
-        return redirect("/projects/")
-    else:
-        return render(request, "counter_except.html")
+    # tr = TildaRequest.objects.latest("id")
+    for tilda_request in TildaRequest.objects.all():
+        request_result = tilda_request.getprojectslist()
+        if not request_result:
+            return render(request, "counter_except.html")
+    # else:
+    #
+    return redirect("/projects/")
 
 
 def project(request, project_id):
