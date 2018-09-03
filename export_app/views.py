@@ -52,7 +52,7 @@ def project(request, project_id):
 
 
 def update_project(request, project_id):
-    tr = TildaRequest.objects.latest("id")
+    tr = TildaRequest.objects.filter(projects__pk=project_id).latest("id")
     if tr.getprojectexport(project_id) and tr.getpageslist(project_id):
         return redirect("/projects/{}/".format(project_id))
     else:
@@ -69,7 +69,7 @@ def page(request, project_id, page_id):
 
 
 def update_page(request, project_id, page_id):
-    tr = TildaRequest.objects.latest("id")
+    tr = TildaRequest.objects.filter(projects__pk=project_id).latest("id")
     if tr.getpagefullexport(page_id):
         return redirect("/projects/{}/page/{}/".format(project_id, page_id))
     else:
