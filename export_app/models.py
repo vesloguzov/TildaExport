@@ -34,6 +34,9 @@ class TildaRequest(models.Model):
     requests_limit = 140
     created_at = models.DateTimeField(auto_now_add=True)
 
+    projects = models.ManyToManyField("Project", blank=True)
+    pages = models.ManyToManyField("Page", blank=True)
+
     def is_available(self):
         now = datetime.now(tz.timezone(settings.TIME_ZONE))
         timedelta = now - self.created_at
@@ -60,11 +63,14 @@ class TildaRequest(models.Model):
                 self.increment()
                 response = request.json()
                 if response["status"] == "FOUND":
+                    self.projects.clear()
                     for project in response["result"]:
                         project_object = Project.objects.get_or_create(id=project["id"])[0]
                         project_object.title = project["title"]
                         project_object.descr = project["descr"]
                         project_object.save()
+                        self.projects.add(project_object)
+                    self.save()
                     return True
             else:
                 return False
@@ -109,6 +115,7 @@ class TildaRequest(models.Model):
                 response = request.json()
                 project = Project.objects.get(pk=project_id)
                 if response["status"] == "FOUND" and response["result"] is not None:
+                    self.pages.clear()
                     for page in response["result"]:
                         page_object = project.ProjectPages.get_or_create(id=page["id"])[0]
                         page_object.projectid = page["projectid"]
@@ -122,6 +129,8 @@ class TildaRequest(models.Model):
                         page_object.published = page["published"]
                         page_object.filename = page["filename"]
                         page_object.save()
+                        self.pages.add(page_object)
+                    self.save()
                 return True
             else:
                 return False
