@@ -11,6 +11,7 @@ class ProjectAdmin(admin.ModelAdmin):
 @admin.register(Page)
 class PageAdmin(admin.ModelAdmin):
     list_display = ('id', 'title', 'descr')
+    search_fields = ['id', 'title']
 
 
 @admin.register(TildaRequest)

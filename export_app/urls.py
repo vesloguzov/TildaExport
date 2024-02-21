@@ -10,4 +10,5 @@ urlpatterns = [
     path('<int:project_id>/update_project/', staff_member_required(views.update_project), name='update_project'),
     path('<int:project_id>/page/<int:page_id>/', staff_member_required(views.page), name='page'),
     path('<int:project_id>/page/<int:page_id>/update_page/', staff_member_required(views.update_page), name='update_page'),
+    path('sentry-debug/', staff_member_required(views.trigger_error), name="sentry_debug"),
 ]

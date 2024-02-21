@@ -2,6 +2,7 @@ from django.conf import settings
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.decorators import user_passes_test
 from django.shortcuts import render, redirect
+import logging
 
 from export_app.models import Project, TildaRequest
 
@@ -34,6 +35,7 @@ def update_projects(request):
     # tr = TildaRequest.objects.latest("id")
     for tilda_request in TildaRequest.objects.all():
         request_result = tilda_request.getprojectslist()
+        print("RESULT:", request_result)
         if not request_result:
             return render(request, "counter_except.html")
     # else:
@@ -65,6 +67,8 @@ def page(request, project_id, page_id):
     context = dict()
     context["page"] = _page
     context["project"] = _project
+    #logging.warning("TEST")
+    #logging.info("TEST@")
     return render(request, "page.html", context)
 
 
@@ -74,3 +78,7 @@ def update_page(request, project_id, page_id):
         return redirect("/projects/{}/page/{}/".format(project_id, page_id))
     else:
         return render(request, "counter_except.html")
+
+
+def trigger_error(request):
+    division_by_zero = 1 / 0

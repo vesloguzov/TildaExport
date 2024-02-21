@@ -7,10 +7,9 @@ from django.conf import settings
 from django.contrib.sites.models import Site
 from django.db import models
 import logging
+log = logging.getLogger()
+headers = { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
 
-
-#log = logging.getLogger(__name__)
-my_headers = { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36"}
 
 
 def is_binary(obj):
@@ -84,7 +83,6 @@ class TildaRequest(models.Model):
                 return False
 
     def getprojectexport(self, project_id):
-        print("TEST")
         print("{}getprojectexport/?publickey={}&secretkey={}&projectid={}".format(self.base_url, self.publickey,
                                                                                     self.secretkey, project_id))
         if self.request_count < self.requests_limit:
@@ -147,9 +145,7 @@ class TildaRequest(models.Model):
                 return False
 
     def getpagefullexport(self, page_id):
-	#logging.warning("TEST")
         if self.request_count < self.requests_limit:
-	    #logging.info("TETE")
             request = requests.get(
                 "{}getpagefullexport/?publickey={}&secretkey={}&pageid={}".format(self.base_url, self.publickey,
                                                                                   self.secretkey, page_id))
@@ -177,13 +173,13 @@ class TildaRequest(models.Model):
                         page_object.html = ""
                     page_object.last_updated = datetime.now()
                     page_object.save()
-                    if "js" in response["result"].keys():
-                        page_object.save_static_files(response["result"]["js"])
-                    if "css" in response["result"].keys():
-                        page_object.save_static_files(response["result"]["css"])
                     if "images" in response["result"].keys():
                         page_object.save_page_images(response["result"]["images"])
-                    page_object.save_html_file()
+                    if "js" in response["result"].keys():
+                        project.save_static_files(response["result"]["js"])
+                    if "css" in response["result"].keys():
+                        project.save_static_files(response["result"]["css"])
+                    if "images" in response["result"].keys():
                     return True
             else:
                 return False
@@ -203,15 +199,12 @@ class Project(models.Model):
     last_updated = models.DateTimeField(null=True, blank=True)
 
     def save_static_files(self, files):
-        #my_headers = {}
-        #my_headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'
         for file in files:
             path = os.path.join(settings.MEDIA_ROOT, 'projects', self.id)
             newfile = os.path.join(settings.MEDIA_ROOT, 'projects', self.id, file["to"])
             if not os.path.isdir(path):
                 os.mkdir(path)
-            response = requests.get(file["from"], headers=my_headers)
-	    #headers=my_headers
+            response = requests.get(file["from"], stream=True)
             with open(newfile, 'w') as out_file:
                 out_file.write(response.text)
 
@@ -257,14 +250,12 @@ class Page(models.Model):
         self.save()
 
     def save_page_images(self, files):
-        #my_headers = {}
-        #my_headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'
         for file in files:
             path = os.path.join(settings.MEDIA_ROOT, 'projects', self.projectid)
             newfile = os.path.join(settings.MEDIA_ROOT, 'projects', self.projectid, file["to"])
             if not os.path.isdir(path):
                 os.mkdir(path)
-            response = requests.get(file["from"], stream=True, headers=my_headers)
+            response = requests.get(file["from"], stream=True)
             if is_binary(response):
                 with open(newfile, 'wb') as out_file:
                     for chunk in response:
@@ -272,19 +263,6 @@ class Page(models.Model):
             else:
                 with open(newfile, 'w') as out_file:
                     out_file.write(response.text)
-
-    def save_static_files(self, files):
-#        my_headers = {}
-#	my_headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'
-        for file in files:
-            path = os.path.join(settings.MEDIA_ROOT, 'projects', self.id)
-            newfile = os.path.join(settings.MEDIA_ROOT, 'projects', self.id, file["to"])
-            if not os.path.isdir(path):
-                os.mkdir(path)
-            response = requests.get(file["from"], headers=my_headers)
-	    #logging.warning(response)
-            with open(newfile, 'w') as out_file:
-                out_file.write(response.text)
 
 
 class StaticFile(models.Model):
