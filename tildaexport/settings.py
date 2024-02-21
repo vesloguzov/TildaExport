@@ -22,13 +22,11 @@ SITE_ID = 1
 USE_SSL = True
 #APPEND_SLASH = False
 
-ALLOWED_HOSTS = ["tilda.lektorium.tv"]
+ALLOWED_HOSTS = ["tilda.lektorium.tv", 'localhost']
 
 CORS_ORIGIN_WHITELIST = (
-    '*.lektorium.tv',
-    'localhost:8000',
-    'academy-v2.sk.ru',
-    'academy.uat.sk.ru',
+    'http://*.lektorium.tv',
+    'http://localhost:8000',
 )
 
 CORS_ORIGIN_ALLOW_ALL = True
@@ -41,12 +39,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'celery',
     'export_app',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'corsheaders',
     'raven.contrib.django.raven_compat',
+    'django_celery_results',
 ]
 
 MIDDLEWARE = [
@@ -84,15 +84,21 @@ STATICFILES_FINDERS = [
 ]
 WSGI_APPLICATION = 'tildaexport.wsgi.application'
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': "tilda1",
+#         'USER': 'tilda',
+#         'PASSWORD': 'tildapassword',
+#         'OPTIONS': {
+#                 'charset': 'utf8mb4',
+#             }
+#     }
+# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': "tilda1",
-        'USER': 'tilda',
-        'PASSWORD': 'tildapassword',
-        'OPTIONS': {
-                'charset': 'utf8mb4',
-            }
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'tildaexport/../db.sqlite3'),
     }
 }
 
@@ -142,4 +148,21 @@ LOGGING = {
             'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
         },
     },
+}
+
+CELERY_BROKER_URL = "redis://localhost:6379"
+CELERY_RESULT_BACKEND = "redis://localhost:6379"
+
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_CACHE_BACKEND = 'django-cache'
+
+# celery setting.
+CELERY_CACHE_BACKEND = 'default'
+
+# django setting.
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'my_cache_table',
+    }
 }

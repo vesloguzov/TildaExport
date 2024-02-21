@@ -1,6 +1,11 @@
-Django==2.1
+Django==3.1
 gunicorn==19.9.0
 pytz==2018.5
 requests==2.19.1
 urllib3==1.23
 django-allauth
+django-cors-headers==3.9.0
+celery
+raven
+redis
+django-celery-results==2.4.0

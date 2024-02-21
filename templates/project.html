@@ -1,78 +1,152 @@
-{% extends "base.html" %}
-{% load static %}
-{% block content %}
-    <div class="project">
-        <div class="ui vertical segment">
-            <div class="ui text container">
-                <div class="ui large breadcrumb">
-                    <a href="/projects/" class="section">Проекты</a>
-                    <i class="right chevron icon divider"></i>
-                    <div class="active section">{{ project.title }}</div>
-                </div>
-            </div>
-            <div class="ui text container">
-                <h1 class="ui header">
-                    <div class="content">
-                        {{ project.title }}
-                        <a class="ui green label">ID project: {{ project.id }}</a>
-                        {% if project.descr %}
-                            <div class="sub header">Описание: {{ project.descr }}</div>
-                        {% endif %}
-                    </div>
-                </h1>
-                <div class="ui grid">
-                    <div class="twelve wide column">
-                        {% if project.customdomain %}
-                            <div class="meta">Домен: <strong>{{ project.customdomain }}</strong></div>
-                        {% endif %}
-                        {% if project.descr %}
-                            <div class="meta">Описание: <strong>{{ project.descr }}</strong></div>
-                        {% endif %}
-                        {% if pages %}
-                            <div class="meta">Количество страниц в проекте: <strong>{{ pages|length }} шт.</strong></div>
-                        {% endif %}
-                        {% if project.favicon %}
-                            <p>Картинка: {{ project.favicon }}</p>
-                        {% endif %}
-                    </div>
-                    <div class="center aligned four wide column">
-                        <a href="update_project/" class="ui orange button"> <i class="sync alternate icon"></i>Обновить проект</a>
-                        {% if project.last_updated %}
-                            <p class="last_update">Последнее обновлено:<br/><strong>{{ project.last_updated }} (МСК)</strong></p>
-                        {% endif %}
-                    </div>
-                </div>
+{% extends "base.html" %} {% load static %} {% block content %}
+<script>
+  $(document).ready(() => {
+    function getCookie(c_name) {
+      if (document.cookie.length > 0) {
+        c_start = document.cookie.indexOf(c_name + '=');
+        if (c_start != -1) {
+          c_start = c_start + c_name.length + 1;
+          c_end = document.cookie.indexOf(';', c_start);
+          if (c_end == -1) c_end = document.cookie.length;
+          return unescape(document.cookie.substring(c_start, c_end));
+        }
+      }
+      return '';
+    }
 
+    $.ajaxSetup({
+      headers: { 'X-CSRFToken': getCookie('csrftoken') },
+    });
+    console.log('Sanity Check!');
 
-            </div>
-        </div>
-        <div class="ui text container">
+    $('#btnSubmit').on('click', function () {
+      $.ajax({
+        url: '/projects/update_project/',
+        data: { project_id: '{{ project.id }}' },
+        method: 'POST',
+      })
+        .done((res) => {
+          getStatus(res.task_id);
+        })
+        .fail((err) => {
+          console.log(err);
+        });
+    });
+  });
 
+  function getStatus(taskID) {
+    $.ajax({
+      url: `/projects/get_status_project/${taskID}/`,
+      method: 'GET',
+    })
+      .done((res) => {
+        const html = `
+          <p>${res.task_status}
+          <br/>${res.task_result}</p>`;
+        $('#tasks').prepend(html);
+        console.log(html);
+        console.log(res);
+        const taskStatus = res.task_status;
 
-            {% if pages %}
-                <div class="ui divided items">
-                    {% for page in pages %}
-                        <div class="item">
-                            <h2 class="ui header">
+        if (taskStatus === 'SUCCESS' || taskStatus === 'FAILURE') return false;
+        setTimeout(function () {
+          getStatus(res.task_id);
+        }, 1000);
+      })
+      .fail((err) => {
+        console.log(err);
+      });
+  }
+</script>
 
-                                <div class="content">
-                                    <a class="header" href="/projects/{{ project.id }}/page/{{ page.id }}/"><i class="file alternate icon"></i>{{ page.title }}</a>
-                                    <div class="sub header">{{ page.descr }}</div>
-                                </div>
-                            </h2>
-                        </div>
-                    {% endfor %}
-                </div>
-            {% else %}
-                <div class="ui segment">
-                    {% if project.last_updated %}
-                        <p>Проект не имеет страниц <i class="frown outline large icon"></i></p>
-                    {% else %}
-                        <p>Чтобы загрузить страницы с сервера Tilda, нажмите на кнопку "Обновить&nbsp;проект"</p>
-                    {% endif %}
-                </div>
-            {% endif %}
-
-        </div>
+<div class="project">
+  <div class="ui vertical segment">
+    <div class="ui text container">
+      <div class="ui large breadcrumb">
+        <a href="/projects/" class="section">Проекты</a>
+        <i class="right chevron icon divider"></i>
+        <div class="active section">{{ project.title }}</div>
+      </div>
     </div>
+    <div class="ui text container">
+      <h1 class="ui header">
+        <div class="content">
+          {{ project.title }}
+          <a class="ui green label">ID project: {{ project.id }}</a>
+          {% if project.descr %}
+          <div class="sub header">Описание: {{ project.descr }}</div>
+          {% endif %}
+        </div>
+      </h1>
+      <div class="ui grid">
+        <div class="twelve wide column">
+          {% if project.customdomain %}
+          <div class="meta">Домен: <strong>{{ project.customdomain }}</strong></div>
+          {% endif %} {% if project.descr %}
+          <div class="meta">Описание: <strong>{{ project.descr }}</strong></div>
+          {% endif %} {% if pages %}
+          <div class="meta">
+            Количество страниц в проекте: <strong>{{ pages|length }} шт.</strong>
+          </div>
+          {% endif %} {% if project.favicon %}
+          <p>Картинка: {{ project.favicon }}</p>
+          {% endif %}
+        </div>
+        <div class="center aligned four wide column">
+          {% comment %}
+          <form method="post" action="update_project">
+            {% endcomment %} {% csrf_token %}
+            <button
+              lass="ui orange button"
+              type="submit"
+              id="btnSubmit"
+              value="{{ project.id }}"
+            >
+              <i class="sync alternate icon"></i>Обновить проект
+            </button>
+            {% comment %}
+          </form>
+          {% endcomment %} {% comment %}
+          <a href="update_project/" class="ui orange button">
+            <i class="sync alternate icon"></i>Обновить проект</a
+          >
+          {% endcomment %} {% if project.last_updated %}
+          <p class="last_update">
+            Последнее обновлено:<br /><strong>{{ project.last_updated }} (МСК)</strong>
+          </p>
+          {% endif %}
+          <p id="#tasks"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ui text container">
+    {% if pages %}
+    <div class="ui divided items">
+      {% for page in pages %}
+      <div class="item">
+        <h2 class="ui header">
+          <div class="content">
+            <a class="header" href="/projects/{{ project.id }}/page/{{ page.id }}/"
+              ><i class="file alternate icon"></i>{{ page.title }}</a
+            >
+            <div class="sub header">{{ page.descr }}</div>
+          </div>
+        </h2>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="ui segment">
+      {% if project.last_updated %}
+      <p>Проект не имеет страниц <i class="frown outline large icon"></i></p>
+      {% else %}
+      <p>
+        Чтобы загрузить страницы с сервера Tilda, нажмите на кнопку "Обновить&nbsp;проект"
+      </p>
+      {% endif %}
+    </div>
+    {% endif %}
+  </div>
+</div>
 {% endblock %}
