@@ -7,6 +7,7 @@ from django.http import JsonResponse
 
 from export_app.models import Project, TildaRequest
 from tildaexport.tasks import update_project_task
+from celery.result import AsyncResult
 
 
 def staff_member_required(view_func=None, redirect_field_name=REDIRECT_FIELD_NAME,
@@ -50,23 +51,33 @@ def project(request, project_id):
     context = dict()
     context["project"] = _project
     context["pages"] = []
+    tr = TildaRequest.objects.filter(projects__pk=project_id).latest("id")
+    context['page_count'] = tr.getpageslistcount(project_id)
     for _page in _project.ProjectPages.all():
         context["pages"].append(_page)
     return render(request, "project.html", context)
 
 
 def update_project(request):
-    if request.POST:
+    if request.method == 'POST':
         project_id = request.POST.get("project_id")
-        task = update_project_task.delay(project_id)
+        page_count = request.POST.get("page_count")
+        if project_id is None:
+            return JsonResponse({'error': 'project_id not found'}, status=400)
+        # try:
+        task = update_project_task.delay(project_id, page_count)
         return JsonResponse({'task_id': task.id}, status=202)
+        # except Exception as e:
+        #     return JsonResponse({'error': str(e)}, status=500)
+    return JsonResponse({'error': 'invalid request method'}, status=405)
     
 def get_status_project(request, task_id):
-    task_result = update_project_task.AsyncResult(task_id)
+    task_result = AsyncResult(task_id)
     result = {
         "task_id": task_id,
         "task_status": task_result.status,
-        "task_result": task_result.result
+        "task_result": task_result.result,
+        "task_meta": task_result._get_task_meta()
     }
     return JsonResponse(result, status=200)
     # 

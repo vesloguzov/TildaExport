@@ -6,3 +6,4 @@ staticfiles
 venv
 db.sqlite3-journal
 .vscode
+dump.rdb

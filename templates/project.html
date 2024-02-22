@@ -1,6 +1,7 @@
 {% extends "base.html" %} {% load static %} {% block content %}
 <script>
   $(document).ready(() => {
+    console.log({{ page_count }});
     function getCookie(c_name) {
       if (document.cookie.length > 0) {
         c_start = document.cookie.indexOf(c_name + '=');
@@ -22,7 +23,7 @@
     $('#btnSubmit').on('click', function () {
       $.ajax({
         url: '/projects/update_project/',
-        data: { project_id: '{{ project.id }}' },
+        data: { project_id: '{{ project.id }}', page_count: '{{ page_count }}' },
         method: 'POST',
       })
         .done((res) => {
@@ -40,18 +41,20 @@
       method: 'GET',
     })
       .done((res) => {
-        const html = `
-          <p>${res.task_status}
-          <br/>${res.task_result}</p>`;
-        $('#tasks').prepend(html);
-        console.log(html);
+        const html1 = `<p>${res.task_status}<br />${res.task_meta}</p>`;
+        $('#tasks').html(html1);
+        console.log($('#btnSubmit').attr('disabled'));
+        $('#btnSubmit').attr('disabled', true);
         console.log(res);
         const taskStatus = res.task_status;
 
-        if (taskStatus === 'SUCCESS' || taskStatus === 'FAILURE') return false;
+        if (taskStatus === 'SUCCESS' || taskStatus === 'FAILURE') {
+          $('#btnSubmit').removeAttr('disabled');
+          return false;
+        }
         setTimeout(function () {
           getStatus(res.task_id);
-        }, 1000);
+        }, 2000);
       })
       .fail((err) => {
         console.log(err);
@@ -97,7 +100,7 @@
           <form method="post" action="update_project">
             {% endcomment %} {% csrf_token %}
             <button
-              lass="ui orange button"
+              class="ui orange button"
               type="submit"
               id="btnSubmit"
               value="{{ project.id }}"
@@ -115,7 +118,7 @@
             Последнее обновлено:<br /><strong>{{ project.last_updated }} (МСК)</strong>
           </p>
           {% endif %}
-          <p id="#tasks"></p>
+          <div id="tasks"></div>
         </div>
       </div>
     </div>

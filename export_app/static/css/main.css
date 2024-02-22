@@ -1,149 +1,147 @@
-
 /* Общие настройки  */
-body{
-    background-color: #F0F0F0;
+body {
+  background-color: #f0f0f0;
 }
-.ui.text.container{
-    max-width: 860px !important;
+.ui.text.container {
+  max-width: 860px !important;
 }
 
 /* Офрмление меню */
 .ui.menu {
-    border-radius: 0;
-    margin-bottom: 0;
+  border-radius: 0;
+  margin-bottom: 0;
 }
-.ui.menu a.active.item{
+.ui.menu a.active.item {
   border-bottom: 3px solid #f4846b;
 }
-.ui.menu a.item:hover{
+.ui.menu a.item:hover {
   border-bottom: 3px solid #f4846b;
-  border-top: 3px solid rgba(255,255,255,.08);
+  border-top: 3px solid rgba(255, 255, 255, 0.08);
   color: #f4846b;
 }
 
-.login .ui.text.container{
-    padding: 5rem;
-    max-width: 500px!important;
+.login .ui.text.container {
+  padding: 5rem;
+  max-width: 500px !important;
 }
 
 /* Оформление страницы "Пректы" */
-.projects .ui.text.container{
-    padding: 2rem 0;
+.projects .ui.text.container {
+  padding: 2rem 0;
 }
 
-.projects .ui.text.container h1{
-    font-weight: 200;
-    font-size: 4rem;
+.projects .ui.text.container h1 {
+  font-weight: 200;
+  font-size: 4rem;
 }
 
 .projects .ui.vertical.segment {
-    background-color: #e7e7e7;
+  background-color: #e7e7e7;
 }
-.projects .ui.vertical.segment .ui.button{
-    border-radius: 2rem;
-    font-weight: normal;
+.projects .ui.vertical.segment .ui.button {
+  border-radius: 2rem;
+  font-weight: normal;
 }
-.projects .ui.header>.icon+.content div.header{
-    color: black;
-    font-weight: 400;
+.projects .ui.header > .icon + .content div.header {
+  color: black;
+  font-weight: 400;
 }
-.projects .ui.header>.icon {
-    background-color: white;
-    border-radius: 40px;
-    padding: 14px;
-    border: 2px solid black;
+.projects .ui.header > .icon {
+  background-color: white;
+  border-radius: 40px;
+  padding: 14px;
+  border: 2px solid black;
 }
 
 /* Оформление страницы "Прект" */
-.project .ui.vertical.segment .ui.text.container{
-    padding-top: 0rem;
-    padding-bottom: 1rem;
+.project .ui.vertical.segment .ui.text.container {
+  padding-top: 0rem;
+  padding-bottom: 1rem;
 }
 
-.project .ui.vertical.segment .ui.text.container h1{
-    font-weight: 400;
-    font-size: 3rem;
+.project .ui.vertical.segment .ui.text.container h1 {
+  font-weight: 400;
+  font-size: 3rem;
 }
 
-.project .ui.text.container{
-    padding-top: 2rem;
-    padding-bottom: 2rem;
+.project .ui.text.container {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 }
 .project .ui.vertical.segment {
-    background-color: #e7e7e7 !important;
+  background-color: #e7e7e7 !important;
 }
-.project .ui.vertical.segment .ui.button{
-    border-radius: 2rem;
-    font-weight: normal;
+.project .ui.vertical.segment .ui.button {
+  border-radius: 2rem;
+  font-weight: normal;
 }
-.project .ui.header .content a{
-    color: black;
-    font-weight: 400;
+.project .ui.header .content a {
+  color: black;
+  font-weight: 400;
 }
-.project .ui.header .content a:hover{
-    color: #f4846b;
-    font-weight: 400;
+.project .ui.header .content a:hover {
+  color: #f4846b;
+  font-weight: 400;
 }
 .project .ui.large.breadcrumb {
-    margin-top: 1rem;
+  margin-top: 1rem;
 }
 
-.project .last_update{
-    line-height: 1;
-    margin-top: 0.5rem;
-    color: #454545;
-    font-size: 0.9rem;
+.project .last_update {
+  line-height: 1;
+  margin-top: 0.5rem;
+  color: #454545;
+  font-size: 0.9rem;
 }
 
 /* Оформление страницы "Страница проекта" */
-.page .ui.vertical.segment .ui.text.container{
-    padding-top: 0rem;
-    padding-bottom: 1rem;
+.page .ui.vertical.segment .ui.text.container {
+  padding-top: 0rem;
+  padding-bottom: 1rem;
 }
 
-.page .ui.vertical.segment .ui.text.container h1{
-    font-weight: 400;
-    font-size: 3rem;
+.page .ui.vertical.segment .ui.text.container h1 {
+  font-weight: 400;
+  font-size: 3rem;
 }
 
-.page .ui.text.container{
-    padding-bottom: 2rem;
-    padding-top: 2rem;
+.page .ui.text.container {
+  padding-bottom: 2rem;
+  padding-top: 2rem;
 }
 .page .ui.vertical.segment {
-    background-color: #e7e7e7 !important;
+  background-color: #e7e7e7 !important;
 }
-.page .ui.vertical.segment .ui.button{
-    border-radius: 2rem;
-    font-weight: normal;
+.page .ui.vertical.segment .ui.button {
+  border-radius: 2rem;
+  font-weight: normal;
 }
-.page .ui.header .content a{
-    color: black;
-    font-weight: 400;
+.page .ui.header .content a {
+  color: black;
+  font-weight: 400;
 }
-.page .ui.header .content a:hover{
-    color: #f4846b;
-    font-weight: 400;
+.page .ui.header .content a:hover {
+  color: #f4846b;
+  font-weight: 400;
 }
 .page .ui.large.breadcrumb {
-    margin-top: 1rem;
+  margin-top: 1rem;
 }
 
-.page .last_update{
-    line-height: 1;
-    margin-top: 0.5rem;
-    color: #454545;
-    font-size: 0.9rem;
+.page .last_update {
+  line-height: 1;
+  margin-top: 0.5rem;
+  color: #454545;
+  font-size: 0.9rem;
 }
 
 .page code {
-    font-size: 0.9rem;
+  font-size: 0.9rem;
 }
 .page .code_action {
-    font-size: 1.3rem;
-    color: #454545;
+  font-size: 1.3rem;
+  color: #454545;
 }
-.page .code_action:hover{
-    color: #f4846b;
+.page .code_action:hover {
+  color: #f4846b;
 }
-
