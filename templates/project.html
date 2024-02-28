@@ -43,6 +43,7 @@
       .done((res) => {
         console.log(res.task_meta);
         if (`{{result.task_update}}` || res.task_update) {
+          //          (res.task_status === 'PENDING' || res.task_status === 'PROGRESS')
           $('#progressBar').progress({
             percent: res.task_meta.page_count,
           });

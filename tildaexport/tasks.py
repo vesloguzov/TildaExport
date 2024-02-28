@@ -21,7 +21,6 @@ def update_project_task(self, project_id, total):
         created_at=datetime.now(tz.timezone(settings.TIME_ZONE)),
     )
     for page_count in range(total + 1):
-        time.sleep(0.1)
         self.update_state(
             state="PROGRESS",
             meta={
@@ -30,6 +29,7 @@ def update_project_task(self, project_id, total):
                 "page_count": page_count,
             },
         )
+        time.sleep(0.1)
     return {
         "project_id": project_id,
         "total": total,
