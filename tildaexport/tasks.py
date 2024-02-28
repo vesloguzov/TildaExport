@@ -1,17 +1,40 @@
 from celery import shared_task, current_task
-from export_app.models import TildaRequest
+from django.conf import settings
+from datetime import datetime
+import pytz as tz
 import logging
 import time
 
+from export_app.models import TildaRequest, RelationTaskProject
+from django_celery_results.models import TaskResult
+from django_celery_results.managers import TaskResultManager
+
+
 @shared_task(bind=True)
-def update_project_task(self, project_id, page_count):
-    logging.warning('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+def update_project_task(self, project_id, total):
     logging.warning(project_id)
     logging.warning(self)
     tr = TildaRequest.objects.filter(projects__pk=project_id).latest("id")
-    logging.warning(tr)
-    current_task.update_state(state='PROGRESS', meta={'total': page_count,'project_id': project_id})
-    time.sleep(5)
+    RelationTaskProject.objects.get_or_create(
+        task_id=self.request.id,
+        project_id=project_id,
+        created_at=datetime.now(tz.timezone(settings.TIME_ZONE)),
+    )
+    for page_count in range(total + 1):
+        time.sleep(0.1)
+        self.update_state(
+            state="PROGRESS",
+            meta={
+                "project_id": project_id,
+                "total": total,
+                "page_count": page_count,
+            },
+        )
+    return {
+        "project_id": project_id,
+        "total": total,
+        "page_count": page_count,
+    }
 
     # get_project = tr.getprojectexport(project_id)
     # if (get_project):

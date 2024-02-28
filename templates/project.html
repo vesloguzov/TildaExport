@@ -1,7 +1,7 @@
 {% extends "base.html" %} {% load static %} {% block content %}
 <script>
   $(document).ready(() => {
-    console.log({{ page_count }});
+    getStatus(`{{result.task_id}}`);
     function getCookie(c_name) {
       if (document.cookie.length > 0) {
         c_start = document.cookie.indexOf(c_name + '=');
@@ -18,12 +18,12 @@
     $.ajaxSetup({
       headers: { 'X-CSRFToken': getCookie('csrftoken') },
     });
-    console.log('Sanity Check!');
+    console.log('Check!');
 
     $('#btnSubmit').on('click', function () {
       $.ajax({
         url: '/projects/update_project/',
-        data: { project_id: '{{ project.id }}', page_count: '{{ page_count }}' },
+        data: { project_id: '{{ project.id }}' },
         method: 'POST',
       })
         .done((res) => {
@@ -41,22 +41,33 @@
       method: 'GET',
     })
       .done((res) => {
-        const html1 = `<p>${res.task_status}<br />${res.task_meta}</p>`;
-        $('#tasks').html(html1);
-        console.log($('#btnSubmit').attr('disabled'));
-        $('#btnSubmit').attr('disabled', true);
-        console.log(res);
-        const taskStatus = res.task_status;
+        console.log(res.task_meta);
+        if (`{{result.task_update}}` || res.task_update) {
+          $('#progressBar').progress({
+            percent: res.task_meta.page_count,
+          });
+          const html1 = `<div class="last_update"><p>${res.task_status}</div>`;
 
-        if (taskStatus === 'SUCCESS' || taskStatus === 'FAILURE') {
-          $('#btnSubmit').removeAttr('disabled');
-          return false;
+          $('#tasks').html(html1);
+          $('#btnSubmit').attr('disabled', true);
+          const taskStatus = res.task_status;
+
+          if (taskStatus === 'SUCCESS' || taskStatus === 'FAILURE') {
+            $('#btnSubmit').removeAttr('disabled');
+            $('#progressBar').remove();
+            return false;
+          }
+
+          setTimeout(function () {
+            getStatus(res.task_id);
+          }, 2000);
         }
-        setTimeout(function () {
-          getStatus(res.task_id);
-        }, 2000);
       })
       .fail((err) => {
+        let txt_html = `Проект не обновляли в новой версии`;
+        const html1 = `<div class="last_update"><p>${txt_html}</p></div>`;
+        $('#tasks').html(html1);
+        $('#progressBar').remove();
         console.log(err);
       });
   }
@@ -119,6 +130,11 @@
           </p>
           {% endif %}
           <div id="tasks"></div>
+          <div class="ui indicating progress" id="progressBar">
+            <div class="bar">
+              <div class="progress"></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

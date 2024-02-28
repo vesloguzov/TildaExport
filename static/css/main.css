@@ -20,15 +20,6 @@ body {
   color: #f4846b;
 }
 
-.ui.menu button#btnSubmit {
-  border-bottom: 3px solid #f4846b;
-}
-.ui.menu button#btnSubmit:hover {
-  border-bottom: 3px solid #f4846b;
-  border-top: 3px solid rgba(255, 255, 255, 0.08);
-  color: #f4846b;
-}
-
 .login .ui.text.container {
   padding: 5rem;
   max-width: 500px !important;

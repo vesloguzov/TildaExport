@@ -391,3 +391,13 @@ class StaticFile(models.Model):
     type = (("image", "Картинка"), ("js", "JavaScript-файл"), ("css", "CSS-файл"))
     path = models.CharField("Путь у нас", max_length=255, null=False, blank=False)
     path_tilda = models.CharField("Путь у них", max_length=255, null=False, blank=False)
+
+
+class RelationTaskProject(models.Model):
+    task_id = models.CharField(
+        "Идентификатор таски", max_length=255, null=True, blank=True
+    )
+    project_id = models.CharField(
+        "Идентификатор проекта", max_length=255, null=True, blank=True
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
