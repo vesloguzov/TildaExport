@@ -1,22 +1,23 @@
 {% extends "base.html" %} {% load static %} {% block content %}
 <script>
+
   $(document).ready(() => {
-    getStatus(`{{result.task_id}}`);
-    function getCookie(c_name) {
-      if (document.cookie.length > 0) {
-        c_start = document.cookie.indexOf(c_name + '=');
-        if (c_start != -1) {
-          c_start = c_start + c_name.length + 1;
-          c_end = document.cookie.indexOf(';', c_start);
-          if (c_end == -1) c_end = document.cookie.length;
-          return unescape(document.cookie.substring(c_start, c_end));
-        }
-      }
-      return '';
+    const csrf = "{{ csrf_token }}"
+    const progressBar = $('#progressBar')
+    let data = {{ result|safe }}
+
+    if (!data.task_update) {
+      let txt_html = `Проект не обновляли в новой версии`;
+      const html1 = `<div class="last_update"><p>${txt_html}</p></div>`;
+      $('#tasks').html(html1);
+      progressBar.hide();
+    } else {
+      getStatus(data.task_id, progressBar);
+      progressBar.show()
     }
 
     $.ajaxSetup({
-      headers: { 'X-CSRFToken': getCookie('csrftoken') },
+      headers: { 'X-CSRFToken': csrf },
     });
     console.log('Check!');
 
@@ -27,7 +28,11 @@
         method: 'POST',
       })
         .done((res) => {
-          getStatus(res.task_id);
+          //let progressBar = $('#progressBar')
+          console.log(res)
+          getStatus(res.data.task_id, progressBar);
+          progressBar.show()
+          console.log( res.data.task_meta)
         })
         .fail((err) => {
           console.log(err);
@@ -35,32 +40,37 @@
     });
   });
 
-  function getStatus(taskID) {
+  function getStatus(taskID, progressBar) {
     $.ajax({
       url: `/projects/get_status_project/${taskID}/`,
       method: 'GET',
     })
       .done((res) => {
-        console.log(res.task_meta);
-        if (`{{result.task_update}}` || res.task_update) {
+        let data = {{ result|safe }}
+        console.log(res.task_meta, "res");
+        console.log(data.task_meta, "data")
+        if (data.task_update || res.task_update) {
           //          (res.task_status === 'PENDING' || res.task_status === 'PROGRESS')
-          $('#progressBar').progress({
+          progressBar.progress({
             percent: res.task_meta.page_count,
           });
+
           const html1 = `<div class="last_update"><p>${res.task_status}</div>`;
 
           $('#tasks').html(html1);
           $('#btnSubmit').attr('disabled', true);
-          const taskStatus = res.task_status;
 
-          if (taskStatus === 'SUCCESS' || taskStatus === 'FAILURE') {
+          if (res.task_status === 'SUCCESS' || res.task_status === 'FAILURE') {
             $('#btnSubmit').removeAttr('disabled');
-            $('#progressBar').remove();
+            progressBar.hide();
+            progressBar.progress({
+              percent: 0
+            })
             return false;
           }
 
           setTimeout(function () {
-            getStatus(res.task_id);
+            getStatus(res.task_id, progressBar);
           }, 2000);
         }
       })
@@ -68,7 +78,10 @@
         let txt_html = `Проект не обновляли в новой версии`;
         const html1 = `<div class="last_update"><p>${txt_html}</p></div>`;
         $('#tasks').html(html1);
-        $('#progressBar').remove();
+        progressBar.hide();
+        progressBar.progress({
+          percent: 0
+        })
         console.log(err);
       });
   }

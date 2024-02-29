@@ -6,7 +6,7 @@ from .models import Project, Page, TildaRequest, RelationTaskProject
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
     list_display = ("id", "title", "descr")
-    readonly_fields = ("children_objects_count",)
+    readonly_fields = ("total_objects",)
 
 
 @admin.register(Page)

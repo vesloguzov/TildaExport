@@ -8,7 +8,6 @@ from django.contrib.sites.models import Site
 from django.db import models
 import logging
 
-
 # log = logging.getLogger(__name__)
 my_headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36"
@@ -168,6 +167,8 @@ class TildaRequest(models.Model):
                         page_object.filename = page["filename"]
                         page_object.save()
                         self.pages.add(page_object)
+                        project.objects_count += 1
+                        project.save()
                     self.save()
                 return True
             else:
@@ -205,7 +206,7 @@ class TildaRequest(models.Model):
                         count += len(response_getprojectexport["result"]["images"])
                     count += len(response_getpageslist["result"])
                     project = Project.objects.get(pk=project_id)
-                    project.children_objects_count = count
+                    project.total_objects = count
                     project.save()
                     return count
             else:
@@ -261,6 +262,10 @@ class TildaRequest(models.Model):
                 return False
 
 
+# from tasks import update_project_task
+# from decimal import *
+
+
 class Project(models.Model):
     id = models.CharField(
         "Идентификатор", max_length=255, null=False, blank=False, primary_key=True
@@ -281,12 +286,12 @@ class Project(models.Model):
     static_files = models.ManyToManyField("StaticFile", blank=True)
     ProjectPages = models.ManyToManyField("Page", blank=True)
     last_updated = models.DateTimeField(null=True, blank=True)
-    children_objects_count = models.IntegerField(null=True, blank=True)
+    objects_count = models.IntegerField(null=True, blank=True, default=0)
+    total_objects = models.IntegerField(null=True, blank=True)
 
     def save_static_files(self, files):
         # my_headers = {}
         # my_headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'
-        # TODO: tr.getpageslistcount(self.id); count -- ; and pass to task.py and create progress bar.
         for file in files:
             path = os.path.join(settings.MEDIA_ROOT, "projects", self.id)
             newfile = os.path.join(settings.MEDIA_ROOT, "projects", self.id, file["to"])
@@ -294,6 +299,8 @@ class Project(models.Model):
                 os.mkdir(path)
             response = requests.get(file["from"], headers=my_headers)
             # headers=my_headers
+            self.objects_count += 1
+            self.save()
             with open(newfile, "w") as out_file:
                 out_file.write(response.text)
 

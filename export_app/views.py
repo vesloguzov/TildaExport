@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect
 import logging
 from django.http import JsonResponse
 from django_celery_results.models import TaskResult
+import json
 
 from export_app.models import Project, TildaRequest, RelationTaskProject
 from tildaexport.tasks import update_project_task
@@ -57,17 +58,18 @@ def project(request, project_id):
         rel = RelationTaskProject.objects.filter(project_id=project_id).latest(
             "created_at"
         )
-        task_result = TaskResult.objects.get_task(task_id=rel.task_id)
-        context["result"] = {
+        task_result = AsyncResult(id=rel.task_id)
+        data = {
             "task_id": rel.task_id,
             "task_status": task_result.status,
             "task_result": task_result.result,
-            "task_meta": task_result.meta,
+            "task_meta": task_result.info,
             "task_update": True,
         }
     except RelationTaskProject.DoesNotExist:
-        context["result"] = {"task_update": False}
+        data = {"task_update": False}
 
+    context["result"] = json.dumps(data)
     for _page in _project.ProjectPages.all():
         context["pages"].append(_page)
     return render(request, "project.html", context)
@@ -78,9 +80,16 @@ def update_project(request):
         project_id = request.POST.get("project_id")
         if project_id is None:
             return JsonResponse({"error": "project_id not found"}, status=400)
-        page_count = 100
-        task = update_project_task.delay(project_id, page_count)
-        return JsonResponse({"task_id": task.id}, status=202)
+        task = update_project_task.delay(project_id)
+        task_result = AsyncResult(id=task.id)
+        data = {
+            "task_id": task.id,
+            "task_status": task_result.status,
+            "task_result": task_result.result,
+            "task_meta": task_result.info,
+            "task_update": True,
+        }
+        return JsonResponse({"data": data}, status=202)
         # except Exception as e:
         #     return JsonResponse({"error": str(e)}, status=500)
     return JsonResponse({"error": "invalid request method"}, status=405)
