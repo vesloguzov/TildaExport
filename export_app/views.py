@@ -67,7 +67,6 @@ def project(request, project_id):
         }
     except RelationTaskProject.DoesNotExist:
         data = {"task_update": False}
-    logging.warning(data)
     context["result"] = json.dumps(data)
     for _page in _project.ProjectPages.all():
         context["pages"].append(_page)
