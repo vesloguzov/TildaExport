@@ -21,6 +21,9 @@ def update_project_task(self, project_id):
         created_at=datetime.now(tz.timezone(settings.TIME_ZONE)),
     )
     project = Project.objects.get(id=project_id)
+    if project.objects_count is None:
+        project.objects_count = 0
+        project.save()
     if project.objects_count > 0:
         project.objects_count = 0
         project.save()
