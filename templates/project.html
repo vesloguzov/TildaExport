@@ -29,10 +29,10 @@
       })
         .done((res) => {
           //let progressBar = $('#progressBar')
-          console.log(res)
-          getStatus(res.data.task_id, progressBar);
-          progressBar.show()
-          console.log( res.data.task_meta)
+            console.log(res)
+            getStatus(res.task_id, progressBar);
+            progressBar.show()
+            console.log( res.task_meta)
         })
         .fail((err) => {
           console.log(err);
@@ -46,18 +46,18 @@
       method: 'GET',
     })
       .done((res) => {
-        let data = {{ result|safe }}
+        console.log(res)
         console.log(res.task_meta, "res");
-        console.log(data.task_meta, "data")
-        if (data.task_update || res.task_update) {
+        //console.log(data.task_meta, "data")
+        if (res.task_update) {
           //          (res.task_status === 'PENDING' || res.task_status === 'PROGRESS')
           progressBar.progress({
             percent: res.task_meta.page_count,
           });
 
-          const html1 = `<div class="last_update"><p>${res.task_status}</div>`;
-
+          let html1 = `<div class="last_update"><p>${res.task_status}</div>`;
           $('#tasks').html(html1);
+
           $('#btnSubmit').attr('disabled', true);
 
           if (res.task_status === 'SUCCESS' || res.task_status === 'FAILURE') {
@@ -66,8 +66,14 @@
             progressBar.progress({
               percent: 0
             })
+            let pages_length = {{ pages|length }}
+            if (pages_length = 0) {
+              html1 = `<div class="last_update"><p>${res.task_status}<br/><b>Обновите страницу</b></div>`;
+                $('#tasks').html(html1);
+            }
             return false;
           }
+
 
           setTimeout(function () {
             getStatus(res.task_id, progressBar);

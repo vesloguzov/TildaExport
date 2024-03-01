@@ -7,6 +7,8 @@ from django.conf import settings
 from django.contrib.sites.models import Site
 from django.db import models
 import logging
+from decimal import *
+from celery.result import AsyncResult
 
 # log = logging.getLogger(__name__)
 my_headers = {
@@ -115,6 +117,10 @@ class TildaRequest(models.Model):
                 self.increment()
                 response = request.json()
                 project = Project.objects.get(pk=project_id)
+                rel = RelationTaskProject.objects.filter(project_id=project.id).latest(
+                    "created_at"
+                )
+
                 if response["status"] == "FOUND":
                     project.id = response["result"]["id"]
                     project.title = response["result"]["title"]
@@ -129,16 +135,22 @@ class TildaRequest(models.Model):
                     # if ("js" or "css" or "images") in response["result"].keys():
 
                     if "js" in response["result"].keys():
-                        project.save_static_files(response["result"]["js"])
+                        project.save_static_files(response["result"]["js"], rel.task_id)
                     if "css" in response["result"].keys():
-                        project.save_static_files(response["result"]["css"])
+                        project.save_static_files(
+                            response["result"]["css"], rel.task_id
+                        )
                     if "images" in response["result"].keys():
-                        project.save_static_files(response["result"]["images"])
+                        project.save_static_files(
+                            response["result"]["images"], rel.task_id
+                        )
                     return True
             else:
                 return False
 
     def getpageslist(self, project_id):
+        import time
+
         if self.request_count < self.requests_limit:
             request = requests.get(
                 "{}getpageslist/?publickey={}&secretkey={}&projectid={}".format(
@@ -149,6 +161,9 @@ class TildaRequest(models.Model):
                 self.increment()
                 response = request.json()
                 project = Project.objects.get(pk=project_id)
+                rel = RelationTaskProject.objects.filter(project_id=project_id).latest(
+                    "created_at"
+                )
                 if response["status"] == "FOUND" and response["result"] is not None:
                     self.pages.clear()
                     for page in response["result"]:
@@ -169,6 +184,21 @@ class TildaRequest(models.Model):
                         self.pages.add(page_object)
                         project.objects_count += 1
                         project.save()
+                        percent = (
+                            Decimal(project.objects_count)
+                            / Decimal(project.total_objects)
+                        ) * Decimal(100)
+                        percent = float(round(percent, 2))
+                        AsyncResult(id=rel.task_id).backend.store_result(
+                            rel.task_id,
+                            state="PROGRESS",
+                            result={
+                                "project_id": project.id,
+                                "total": 100,
+                                "page_count": percent,
+                            },
+                        )
+                        time.sleep(0.05)
                     self.save()
                 return True
             else:
@@ -289,9 +319,10 @@ class Project(models.Model):
     objects_count = models.IntegerField(null=True, blank=True, default=0)
     total_objects = models.IntegerField(null=True, blank=True)
 
-    def save_static_files(self, files):
+    def save_static_files(self, files, task_id):
         # my_headers = {}
         # my_headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'
+
         for file in files:
             path = os.path.join(settings.MEDIA_ROOT, "projects", self.id)
             newfile = os.path.join(settings.MEDIA_ROOT, "projects", self.id, file["to"])
@@ -299,8 +330,22 @@ class Project(models.Model):
                 os.mkdir(path)
             response = requests.get(file["from"], headers=my_headers)
             # headers=my_headers
+
+            percent = (
+                Decimal(self.objects_count) / Decimal(self.total_objects)
+            ) * Decimal(100)
+            percent = float(round(percent, 2))
             self.objects_count += 1
             self.save()
+            AsyncResult(id=task_id).backend.store_result(
+                task_id,
+                state="PROGRESS",
+                result={
+                    "project_id": self.id,
+                    "total": 100,
+                    "page_count": percent,
+                },
+            )
             with open(newfile, "w") as out_file:
                 out_file.write(response.text)
 

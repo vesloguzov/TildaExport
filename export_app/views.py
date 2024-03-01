@@ -62,13 +62,12 @@ def project(request, project_id):
         data = {
             "task_id": rel.task_id,
             "task_status": task_result.status,
-            "task_result": task_result.result,
-            "task_meta": task_result.info,
+            "task_meta": str(task_result.info),
             "task_update": True,
         }
     except RelationTaskProject.DoesNotExist:
         data = {"task_update": False}
-
+    logging.warning(data)
     context["result"] = json.dumps(data)
     for _page in _project.ProjectPages.all():
         context["pages"].append(_page)
@@ -81,15 +80,17 @@ def update_project(request):
         if project_id is None:
             return JsonResponse({"error": "project_id not found"}, status=400)
         task = update_project_task.delay(project_id)
-        task_result = AsyncResult(id=task.id)
-        data = {
+        result = {
             "task_id": task.id,
-            "task_status": task_result.status,
-            "task_result": task_result.result,
-            "task_meta": task_result.info,
+            "task_status": "PROGRESS",
+            "task_meta": {
+                "project_id": project_id,
+                "total": 100,
+                "page_count": 0,
+            },
             "task_update": True,
         }
-        return JsonResponse({"data": data}, status=202)
+        return JsonResponse(result, status=202)
         # except Exception as e:
         #     return JsonResponse({"error": str(e)}, status=500)
     return JsonResponse({"error": "invalid request method"}, status=405)
@@ -102,11 +103,19 @@ def get_status_project(request, task_id):
         task_update = True
     except:
         task_update = False
+
+    if isinstance(task_result.info, dict):
+        info = task_result.info
+    else:
+        try:
+            info = json.loads(task_result.info)
+        except:
+            info = str(task_result.info)
+
     result = {
         "task_id": task_id,
         "task_status": task_result.status,
-        "task_result": task_result.result,
-        "task_meta": task_result.info,
+        "task_meta": info,
         "task_update": task_update,
     }
     return JsonResponse(result, status=200)
