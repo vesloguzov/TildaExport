@@ -1,6 +1,9 @@
-{% extends "base.html" %} {% load static %} {% block content %}
-<script>
+{% extends "base.html" %} 
+{% load static %} 
+{% block title %}{{ project.title }}{% endblock %}
 
+{% block content %}
+<script>
   $(document).ready(() => {
     const csrf = "{{ csrf_token }}"
     const progressBar = $('#progressBar')
@@ -92,7 +95,6 @@
       });
   }
 </script>
-
 <div class="project">
   <div class="ui vertical segment">
     <div class="ui text container">
