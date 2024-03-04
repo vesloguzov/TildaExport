@@ -90,7 +90,7 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
         "NAME": "tilda",
-        "USER": "root",
+        "USER": "tilda1",
         "PASSWORD": "tildapassword",
         "OPTIONS": {
             "charset": "utf8mb4",
