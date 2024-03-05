@@ -98,9 +98,9 @@ def update_project(request):
 def get_status_project(request, task_id):
     task_result = AsyncResult(id=task_id)
     try:
-        rel = RelationTaskProject.objects.get(task_id=task_id)
+        RelationTaskProject.objects.get(task_id=task_id)
         task_update = True
-    except:
+    except RelationTaskProject.DoesNotExist:
         task_update = False
 
     if isinstance(task_result.info, dict):

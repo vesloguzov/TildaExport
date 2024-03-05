@@ -8,10 +8,12 @@ from decimal import *
 import json
 
 from export_app.models import TildaRequest, RelationTaskProject, Project
+from django.core.cache import cache
 
 
 @shared_task(bind=True)
 def update_project_task(self, project_id):
+    cache.clear()
     logging.warning(project_id)
     logging.warning(self)
     tr = TildaRequest.objects.filter(projects__pk=project_id).latest("id")
