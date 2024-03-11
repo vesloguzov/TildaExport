@@ -9,6 +9,7 @@ from django.db import models
 import logging
 from decimal import *
 from celery.result import AsyncResult
+from bs4 import BeautifulSoup
 
 # log = logging.getLogger(__name__)
 my_headers = {
@@ -276,6 +277,14 @@ class TildaRequest(models.Model):
                             ),
                         )
                         page_object.html = page_object.html.replace("height:100vh;", "")
+                        soup = BeautifulSoup(page_object.html)
+                        images = soup.findAll('img')
+                        for image in images:
+                            data_original = image.get('data-original')
+                            src = "{}/media/projects/{}/{}".format(get_site_addr(), page_object.projectid , data_original)
+                            image['src'] = src
+                        page_object.html = str(soup)
+
                     else:
                         page_object.html = ""
                     page_object.last_updated = datetime.now()
