@@ -8,3 +8,4 @@ db.sqlite3-journal
 .vscode
 dump.rdb
 tildaexport/settings.py
+venv3_8
