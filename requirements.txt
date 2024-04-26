@@ -9,3 +9,4 @@ celery
 raven
 redis
 django-celery-results==2.4.0
+beautifulsoup4==4.12.3

@@ -133,8 +133,6 @@ class TildaRequest(models.Model):
                     project.indexpageid = response["result"]["indexpageid"]
                     project.last_updated = datetime.now()
                     project.save()
-                    # if ("js" or "css" or "images") in response["result"].keys():
-
                     if "js" in response["result"].keys():
                         project.save_static_files(response["result"]["js"], rel.task_id)
                     if "css" in response["result"].keys():
@@ -168,38 +166,43 @@ class TildaRequest(models.Model):
                 if response["status"] == "FOUND" and response["result"] is not None:
                     self.pages.clear()
                     for page in response["result"]:
-                        page_object = project.ProjectPages.get_or_create(id=page["id"])[
-                            0
-                        ]
-                        page_object.projectid = page["projectid"]
-                        page_object.title = page["title"]
-                        page_object.descr = page["descr"]
-                        page_object.img = page["img"]
-                        page_object.featureimg = page["featureimg"]
-                        page_object.alias = page["alias"]
-                        page_object.date = page["date"]
-                        page_object.sort = page["sort"]
-                        page_object.published = page["published"]
-                        page_object.filename = page["filename"]
-                        page_object.save()
-                        self.pages.add(page_object)
-                        project.objects_count += 1
-                        project.save()
-                        percent = (
-                            Decimal(project.objects_count)
-                            / Decimal(project.total_objects)
-                        ) * Decimal(100)
-                        percent = float(round(percent, 2))
-                        AsyncResult(id=rel.task_id).backend.store_result(
-                            rel.task_id,
-                            state="PROGRESS",
-                            result={
-                                "project_id": project.id,
-                                "total": 100,
-                                "page_count": percent,
-                            },
-                        )
-                        time.sleep(0.05)
+                        try:
+                            page_current = Page.objects.get(pk=page["id"])
+                            if page_current.projectid != project_id:
+                                page_current.delete()
+                        except:
+                            page_object, status = project.ProjectPages.get_or_create(
+                                id=page["id"]
+                            )
+                            page_object.projectid = page["projectid"]
+                            page_object.title = page["title"]
+                            page_object.descr = page["descr"]
+                            page_object.img = page["img"]
+                            page_object.featureimg = page["featureimg"]
+                            page_object.alias = page["alias"]
+                            page_object.date = page["date"]
+                            page_object.sort = page["sort"]
+                            page_object.published = page["published"]
+                            page_object.filename = page["filename"]
+                            page_object.save()
+                            self.pages.add(page_object)
+                            project.objects_count += 1
+                            project.save()
+                            percent = (
+                                Decimal(project.objects_count)
+                                / Decimal(project.total_objects)
+                            ) * Decimal(100)
+                            percent = float(round(percent, 2))
+                            AsyncResult(id=rel.task_id).backend.store_result(
+                                rel.task_id,
+                                state="PROGRESS",
+                                result={
+                                    "project_id": project.id,
+                                    "total": 100,
+                                    "page_count": percent,
+                                },
+                            )
+                            time.sleep(0.05)
                     self.save()
                 return True
             else:
@@ -278,11 +281,13 @@ class TildaRequest(models.Model):
                         )
                         page_object.html = page_object.html.replace("height:100vh;", "")
                         soup = BeautifulSoup(page_object.html)
-                        images = soup.findAll('img')
+                        images = soup.findAll("img")
                         for image in images:
-                            data_original = image.get('data-original')
-                            src = "{}/media/projects/{}/{}".format(get_site_addr(), page_object.projectid , data_original)
-                            image['src'] = src
+                            data_original = image.get("data-original")
+                            src = "{}/media/projects/{}/{}".format(
+                                get_site_addr(), page_object.projectid, data_original
+                            )
+                            image["src"] = src
                         page_object.html = str(soup)
 
                     else:
